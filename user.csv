@@ -1,2 +1,5 @@
 id;username;nama;password;role;saldo
-
+1;admin;Ulala;cumaadmin;admin;500000
+2;tsuyoku;Larissa;haiya;user;0
+3;bobomen;Ken;kendebest;user;0
+4;jesenganteng123;Jesen;haiya;user;0

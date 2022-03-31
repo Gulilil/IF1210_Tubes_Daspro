@@ -6,6 +6,7 @@
 
 
 # Algoritma
+from stringprep import in_table_c21
 import pandas as pd
 
 # Inisasi Data
@@ -15,7 +16,87 @@ dfriwayat = pd.read_csv("./riwayat.csv", sep = ';')
 dfkepemilikan = pd.read_csv("./kepemilikan.csv", sep =';')
 
 # F2 - Register
+alphabet = "abcdefghijklmnopqrstuvwxyz"
+numbersymbol = "0123456789-_"
+
+def register(dfuser):
+    nama = input("Masukan nama: ")
+    username = input("Masukan username: ")
+    password = input("Masukan password: ")
+    # Melakukan cek apakah terdapat username yang sama
+    sameuser = False
+    for i in dfuser["username"]:
+        if (i == username):
+            sameuser = True
+    while (sameuser == True):
+        sameuser = False
+        print("Username", username," sudah terpakai, silakan menggunakan username lain.")
+        username = input("Masukan username: ")
+        for i in dfuser["username"]:
+            if (i == username):
+                sameuser = True
+            
+    
+    uservalid = True
+    # Melakukan cek validitas username
+    for i in username:
+        if (i not in (alphabet) and i not in (alphabet.upper()) and i not in (numbersymbol)):
+            uservalid = False
+    while (uservalid == False):
+        print("Username", username, "tidak valid. Username hanya diperkenankan mengandung alphabet, angka, underscore, dan strip")
+        username = input("Masukan username: ")
+        uservalid = True
+        for i in username:
+            if (i not in (alphabet) and i not in (alphabet.upper()) and i not in (numbersymbol)):
+                uservalid = False
+    # Memasukan data ke dalam dataframe
+    total = dfuser.shape[0]
+    totalindex = total - 1
+    last_id = dfuser["id"].iloc[totalindex]
+    userdata = {    "id"            : [last_id + 1],
+                "username"      : [username],
+                "nama"          : [nama],
+                "password"      : [password],
+                "role"          : ["user"],
+                "saldo"         : [0] }
+    df = pd.DataFrame(data=userdata)
+    dfjoin = pd.concat([dfuser,df], ignore_index = True)
+    print("Username", username,' telah berhasil register ke dalam "Binomo".')
+    return dfjoin
+
 # F3 - Login
+def login(dfuser):
+    username = input("Masukan username: ")
+    password = input("Masukan password: ")
+
+    # Melakukan verifikasi terhadap username dan password
+    index = 0
+    lastindex = dfuser.shape[0] - 1
+    available = False       # Variabel untuk menjelaskan apakah username ada pada dataframe
+    search = True           # Variabel untuk melakukan pencarian terhadap data user
+    while (search == True):
+        if (dfuser["username"].iloc[index] == username):
+            available = True            # Data username terdapat pada dataframe
+            search = False              # Pencarian tidak perlu dilakukan lagi
+        if (index == lastindex and dfuser["username"].iloc[index] != username ):    # Sampai suku terakhir, tidak ditemukan data pengguna
+            available = False
+            search = False
+        if (search == True):            # Jika search = False, tidak perlu lagi dilakukan penambahan index
+            index = index + 1
+    if (available == True):
+        # Mengeluarkan pernyataan login 
+        # Bila benar, mengembalikan data pengguna berada pada index ke berapa
+        # Bila salah, tidak mengembalikan apapun
+        if (dfuser['password'].iloc[index] == password):
+            print("Halo "+ dfuser["nama"].iloc[index]+'! Selamat datang di "Binomo".')
+            return index
+        else:
+            print("Password atau username salah atau tidak ditemukan.")
+            return None
+    else:
+        print("Password atau username salah atau tidak ditemukan.")
+        return None
+
 # F4 - Menambah Game ke Toko
 # F5 - Mengubah Game pada Toko
 # F6 - Mengubah Stok Game di Toko
@@ -44,7 +125,7 @@ def help(role):
         print("list_game_toko       - Mengurutkan game yang ada pada toko berdasarkan data tertentu.")              #F7
         print("buy_game             - Membeli game tertentu dari toko.")                                            #F8
         print("list_game            - Mengurutkan seluruh game yang dimiliki berdasarkan parameter tertentu.")      #F9
-        print("search_my_game       - Mencari game tertentu berdasarkan parameter tertentu.")                       #10
+        print("search_my_game       - Mencari game tertentu berdasarkan parameter tertentu.")                       #F10
         print("search_game_at_store - Mencari game berdasarkan parameter yang diinputkan.")                         #F11
 
 # F15 - Load
@@ -60,14 +141,86 @@ def save(df1,df2,df3,df4):
 
 # F17 - Exit
 def exit():
-    answer = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n)").lower()
+    answer = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").lower()
     while (answer != "y" and answer != "n"):
-        answer = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n)").lower()
+        answer = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").lower()
     return answer
     # return dalam char 'y' atau 'n'
+
+# Fungsi lain-lain
+def printdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):       # Untuk melihat dataframe, hanya bisa diakses oleh admin
+    print("Ketik data yang ingin dilihat.")
+    choice = input("1. User, 2. Game, 3.Riwayat, 4. Kepemilikan : ")
+    
+    if (choice == '1'):
+        print(dfuser)
+    elif (choice == '2'):
+        print(dfgame)
+    elif (choice == '3'):
+        print(dfriwayat)
+    elif (choice == '4'):
+        print(dfkepemilikan)
+    else :
+        print("Pilihan data invalid.")
+
+
 
 # Program Utama
 program = True                  # variabel program adalah syarat untuk menjalankan program
 
 while (program == True):
-    action = input("Tindakan apa yang akan dilakukan: ").lower()
+    action = input("Silahkan ketik 'login': ").lower()
+    logged = False              # Variabel yang menjelaskan apakah pengguna sudah login atau belum
+    if (action == 'login'):
+        index = login(dfuser)
+        if (index == None):
+            logged = False
+        else :
+            logged = True
+
+        while(logged == True):      # Pengguna sudah masuk ke suatu akun
+            print("User ID  :", dfuser['id'].iloc[index])
+            print("Nama     :", dfuser['nama'].iloc[index])
+            role = dfuser['role'].iloc[index]
+
+            # Menanyakan kembali pengguna, tindakan yang akan dilakukan
+            action = input("Tindakan apa yang akan dilakukan: ").lower()
+
+            # Jika input adalah register
+            if (action == 'register'):
+                if (role == 'admin'):
+                    dfuser = register(dfuser)
+                else:
+                    print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+
+            # Jika action adalah login
+            if (action == 'login'):
+                index = login(dfuser)
+            
+            # Jika action adalah help
+            if (action == 'help'):
+                help(role)
+
+            # Jika action adalah exit
+            if (action == 'exit'):
+                if (exit() == 'y'):
+                    save(dfuser, dfgame, dfriwayat, dfkepemilikan)
+                    program = False
+                    logged = False
+                else :
+                    program = False
+                    logged = False
+            
+            # Jika action adalah print
+            if (action == 'print'):
+                if (role == 'admin'):
+                    printdataframe(dfuser,dfgame,dfriwayat,dfkepemilikan)
+                else:
+                    print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+
+    else :                              # pengguna tidak menginputkan 'login'
+        print('Maaf, anda harus login terlebih dahulu untuk mengirim perintah selain "login".')
+
+
+
+
