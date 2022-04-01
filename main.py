@@ -6,9 +6,10 @@
 
 
 # Algoritma
-from stringprep import in_table_c21
 import pandas as pd
-import time
+from kerangajaib import kerangajaib
+from tictactoe import tictactoe
+from password import *
 
 # Inisasi Data
 dfuser = pd.read_csv("./user.csv", sep = ';')
@@ -50,6 +51,10 @@ def register(dfuser):
         for i in username:
             if (i not in (alphabet) and i not in (alphabet.upper()) and i not in (numbersymbol)):
                 uservalid = False
+
+    # Mengubah password yang diinputkan menjadi chippered password 
+    password = encryptpass(password, alphabet)
+
     # Memasukan data ke dalam dataframe
     total = dfuser.shape[0]
     totalindex = total - 1
@@ -88,7 +93,11 @@ def login(dfuser):
         # Mengeluarkan pernyataan login 
         # Bila benar, mengembalikan data pengguna berada pada index ke berapa
         # Bila salah, tidak mengembalikan apapun
-        if (dfuser['password'].iloc[index] == password):
+
+        # Mengembalikan chippered password ke initial password
+        initialpass = decryptpass(dfuser['password'].iloc[index], alphabet)
+        # Melakukan cek apakah password yang dimasukan sama dengan initial password
+        if (initialpass == password):
             print("Halo "+ dfuser["nama"].iloc[index]+'! Selamat datang di "Binomo".')
             return index
         else:
@@ -169,153 +178,15 @@ def printdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):       # Untuk meli
     else :
         print("Pilihan data invalid.")
 
-# Fungsi Kerang Ajaib
-def kerangajaib():
-    answerlist = ['Bisa jadi(?)', 'Kubilang tidak ya tidak', 'Menurut ngana?', "Hidup maneh kumaha maneh", "YNTKTS", 
-            "Pertanyaan tersebut diluar kapasitas kemampuan.", "Kerang ajaib menolak untuk menjawab.", 'Kerang ajaib has left the chat.']
-    
-    # Menghitung panjang list answerlist
-    length = 0
-    counting = True
-    while (counting == True):
-        if (answerlist[length] == 'Kerang ajaib has left the chat.'): #List selalu diset bahwa string "Kerang ajaib has left the chat." berada pada posisi terakhir
-            counting = False
-        if (counting == True):                  # Penambahan length tidak perlu dilakukan bila perhitungan sudah dinonaktifkan
-            length = length +1 
-
-    input("Apa pertanyaanmu? ")
-
-    # Mendapatkan program dilaksanakan pada detik ke berapa
-    local = time.localtime()
-    current = time.strftime("%S", local)
-    # Program randomize memanfaatkan detik yang terus bertambah, sehingga nilai yang didapatkan terus berubah
-    result = int(current) % length  
-    print(answerlist[result])
 
 
-#Fungsi Tic Tac Toe
-def printboard(board): #Untuk melakukan print papan tictactoe
-    for i in range (3):
-        for j in range(3):
-            print(board[i][j],end='')
-        print()
-
-def checkxy(x,y,board):
-    iy = y-1            #iy adalah index y pada papan
-    ix = x-1            #ix adalah index x pada papan
-    if ( x < 0 or x > 3 or y < 0 or y > 3):
-        print("Koordinat berada diluar papan.")
-        return False
-    if (board[2-iy][ix] != "#"):
-        print("Petak tersebut telah diisi.")
-        return False
-    return True
-
-def checkwin(board):
-    # Fungsi mengeluarkan return True jika permainan selesai (sudah ada pemenang)
-    # Check horizontal:
-    for i in range(3):
-        if ( board[i][0] == "X" and board[i][1] == "X" and board[i][2] == "X"):
-            print('Pemain "X" menang secara horizontal.')
-            return True     
-        if ( board[i][0] == "O" and board[i][1] == "O" and board[i][2] == "O"):
-            print('Pemain "O" menang secara horizontal.')
-            return True
-    # Check vertical:
-    for j in range(3):
-        if ( board[0][j] == "X" and board[1][j] == "X" and board[2][j] == "X"):
-            print('Pemain "X" menang secara vertikal.')
-            return True     
-        if ( board[0][j] == "O" and board[1][j] == "O" and board[2][j] == "O"):
-            print('Pemain "O" menang secara vertikal.')
-            return True
-    #Check Diagonal:
-    # Check Diagonal garis y = x
-    if ( board[0][2] == "X" and board[1][1] == "X" and board[2][0] == "X"):
-        print('Pemain "X" menang secara diagonal.')
-        return True     
-    elif (board[0][2] == "O" and board[1][1] == "O" and board[2][0] == "O"):
-        print('Pemain "O" menang secara diagonal.')
-        return True
-    # Check Diagonal garis y = -x
-    if ( board[0][0] == "X" and board[1][1] == "X" and board[2][2] == "X"):
-        print('Pemain "X" menang secara diagonal.')
-        return True     
-    elif ( board[0][0] == "O" and board[1][1] == "O" and board[2][2] == "O"):
-        print('Pemain "O" menang secara diagonal.')
-        return True
-    return False
-
-def checkdraw(board):
-    hashcount = 0                   # Menghitung banyaknya hashtag pada papan
-    for i in range(3):
-        for j in range(3):
-            if (board[i][j] == "#"):
-                hashcount +=1
-    if (hashcount > 0):             # Bila masih ada papan kosong, permainan belum selesai
-        return False
-    elif (hashcount == 0):          # Bila sudah tidak ada papan kosong, permainan selesai
-        print("Permainan selesai dengan berakhir seri.")
-        return True
-
-def tictactoe():
-    print("Legenda: ")
-    print("# Kosong")
-    print("X Pemain 1")
-    print("O Pemain 2")
-    game = True             # Variabel yang menandakan apakah game masih berlanjut
-    round = 1               # Menyatakan banyaknya ronde pada permainan
-
-    # Melakukan setup papan tictactoe
-    board = [['#','#','#'],
-             ['#','#','#'],
-             ['#','#','#']]
-    
-
-    while (game == True):
-        print("Ronde", round)
-        print("Status Papan")
-        printboard(board)
-
-        # Check apakah permainan sudah mendapatkan pemenang
-        if (checkwin(board) == True):
-            game = False
-        
-        # Check apakah permainan berakhir seri
-        if (checkdraw(board) == True):
-            game = False
-
-        if (game == True):                      # Dilakukan apabila game masih berlanjut
-            if (round % 2 == 1):
-                print("Giliran Pemain 'X'")
-            else:                               # (round % 2 == 0):
-                print("Giliran Pemain '0'")
-            
-            #Meminta input pada pemain
-            x = int(input("X: "))
-            y = int(input("Y: "))
-            while (checkxy(x,y,board) == False):
-                x = int(input("X: "))
-                y = int(input("Y: "))
-            # Memasukan input pada papan
-            iy = y-1            #iy adalah index y pada papan
-            ix = x-1            #ix adalah index x pada papan
-            if (round % 2 == 1):
-                board[2-iy][ix] = "X"
-            else :
-                board[2-iy][ix] = "O"
-
-            round = round +1
-
-
-    
 # Program Utama
 program = True                  # variabel program adalah syarat untuk menjalankan program
 
 while (program == True):
     print("========================================================================================")
     print("Tindakan yang bisa dilakukan tanpa login: 'login', 'kerangajaib', 'tictactoe', dan 'exit'")
-    action = input("Silahkan ketik 'login': ").lower()
+    action = input("Silahkan ketikkan perintah: ").lower()
     logged = False              # Variabel yang menjelaskan apakah pengguna sudah login atau belum
     if (action == 'login'):
         index = login(dfuser)
@@ -343,7 +214,8 @@ while (program == True):
 
             # Jika action adalah login
             elif (action == 'login'):
-                index = login(dfuser)
+                if (login(dfuser) != None):         # Index berubah hanya jika login berhasil ke akun baru berhasil dilakukan 
+                    index = login(dfuser)          
             
             # Jika action adalah help
             elif (action == 'help'):
