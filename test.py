@@ -1,13 +1,16 @@
 # Digunakan untuk mengetest command-command sebelum dimasukan kedalam file utama
 
+'''
 import time
 
-'''     # Random Number untuk Kerang Ajaib
+    # Random Number untuk Kerang Ajaib
 n = int(input("Panjang list:"))
 
 local = time.localtime()
 current = time.strftime("%S", local)
 print(current)
+year = time.strftime("%Y", local)       # Untuk tahunnya
+print(year)
 
 hasil = int(current) % n
 print(hasil)
@@ -20,9 +23,11 @@ print(ord('p')) # --> dari char -> ke angka
 print(chr(112)) # --> dari angka --> char
 '''
 
+# Untuk konversi dari password asli ke password ciphered
+'''
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-password = "kendebest"
+password = "dahlah"
 newpass = ""
 
 for i in (password):
@@ -46,7 +51,12 @@ print(" ======================================= ")
 # String pemisah --> 907
 
 print(newpass)
-#newpass = 21s19k22e22e22u21o22a19w
+'''
+
+
+# Untuk ngubah dari password ciphered ke password asli
+'''
+newpass = "21s19k22e22e22u21o22a19w"
 
 length = 0
 for i in (newpass):
@@ -88,3 +98,4 @@ while (i < length):
     finalcode = finalcode + resultcode
 
 print(finalcode)
+'''

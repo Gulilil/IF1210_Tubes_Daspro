@@ -117,6 +117,48 @@ def login(dfuser):
 # F11 - Mencari Game di Toko 
 # F12 - Top Up Saldo
 # F13 - Melihat Riwayat Pembayaran
+def riwayat(id, dfriwayat):
+    # Format GameID | Nama game | Harga | Tahun Beli
+    # Melakukan pencarian id pada dfriwayat
+    index = 0                                       # Variabel digunakan untuk menyatakan index pada dataframe selama pencarian
+    gameamount = 0                                  # Variabel digunakan untuk menghitung banyak game yang dimiliki
+    for i in dfriwayat["user_id"]:
+        if (i == id):
+            gameamount +=1
+            gameid = dfriwayat["game_id"].iloc[index]
+            gamename = dfriwayat["nama"].iloc[index]
+            price = dfriwayat["harga"].iloc[index]
+            year  = dfriwayat["tahun_beli"].iloc[index]
+
+            # Sebelum melakukan print, akan dimanfaatkan whitespace sehingga output terlihat lebih rapih
+            gamenamemaxspace = 60                    # Menandakan panjang string maksimal dari sebuah nama game
+            pricemaxspace = 15                       # Menandakan panjang string maksimal dari sebuah harga game
+            price = str(price)
+            gamename = str(gamename)
+            pricelength = 0 ; namelength = 0;
+
+            # Menghitung panjang string price dan gamename
+            for i in price:
+                pricelength +=1
+            for i in gamename:
+                namelength +=1
+
+            # Jika length lebih panjang dari maxspace, maka banyak whitespace adalah 0
+            if (namelength > gamenamemaxspace):
+                namewhitespace = 0
+            else:
+                namewhitespace = gamenamemaxspace - namelength
+            if (pricelength > pricemaxspace):
+                pricewhitespace = 0
+            else:
+                pricewhitespace = pricemaxspace - pricelength
+            
+            print(str(gameamount)+". "+ str(gameid)+" | "+str(gamename)+namewhitespace*" "+" | "+str(price)+pricewhitespace*" "+" | "+str(year)+" | ")
+        index +=1
+    if (gameamount == 0):
+        print("Maaf, kamu tidak ada riwayat pembelian game. Ketik perintah 'buy_game' untuk membeli.")
+
+
 # F14 - Help
 def help(role):
     if (role == 'admin'):
@@ -197,10 +239,12 @@ while (program == True):
 
         while(logged == True):      # Pengguna sudah masuk ke suatu akun
             print("==============================================")
-            print("User ID  :", dfuser['id'].iloc[index])
-            print("Nama     :", dfuser['nama'].iloc[index])
-            print("Role     :", dfuser["role"].iloc[index])
+            id = dfuser['id'].iloc[index]
             role = dfuser['role'].iloc[index]
+            print("User ID  :", id)
+            print("Nama     :", dfuser['nama'].iloc[index])
+            print("Role     :", role)
+            
 
             # Menanyakan kembali pengguna, tindakan yang akan dilakukan
             action = input("Tindakan apa yang akan dilakukan: ").lower()
@@ -215,7 +259,14 @@ while (program == True):
             # Jika action adalah login
             elif (action == 'login'):
                 if (login(dfuser) != None):         # Index berubah hanya jika login berhasil ke akun baru berhasil dilakukan 
-                    index = login(dfuser)          
+                    index = login(dfuser)   
+
+            # Jika action adalah riwayat
+            elif (action == 'riwayat'):
+                if (role == 'admin'):
+                    print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
+                else:
+                    riwayat(id, dfriwayat)
             
             # Jika action adalah help
             elif (action == 'help'):
