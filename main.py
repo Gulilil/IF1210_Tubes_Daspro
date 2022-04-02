@@ -6,16 +6,16 @@
 
 
 # Algoritma
-import pandas as pd
 from kerangajaib import kerangajaib
 from tictactoe import tictactoe
 from password import *
+from csvlistfunction import *
 
 # Inisasi Data
-dfuser = pd.read_csv("./user.csv", sep = ';')
-dfgame = pd.read_csv("./game.csv", sep = ';')
-dfriwayat = pd.read_csv("./riwayat.csv", sep = ';')
-dfkepemilikan = pd.read_csv("./kepemilikan.csv", sep =';')
+dfuser = csvtolist("user",6)
+dfgame = csvtolist("game",6)
+dfriwayat = csvtolist("riwayat",5)
+dfkepemilikan = csvtolist("kepemilikan", 2)
 
 # F2 - Register
 alphabet = "abcdefghijklmnopqrstuvwxyz"
@@ -25,10 +25,14 @@ def register(dfuser):
     nama = input("Masukan nama: ")
     username = input("Masukan username: ")
     password = input("Masukan password: ")
+
+    # Menghitung panjang dfuser
+    length = lengthlist(dfuser)
+
     # Melakukan cek apakah terdapat username yang sama
     sameuser = False
-    for i in dfuser["username"]:
-        if (i == username):
+    for i in range(length):
+        if (dfuser[i][1] == username):                              # Kolom index 1 adalah kolom dimana username disimpan
             sameuser = True
     while (sameuser == True):
         sameuser = False
@@ -55,36 +59,30 @@ def register(dfuser):
     # Mengubah password yang diinputkan menjadi chippered password 
     password = encryptpass(password, alphabet)
 
-    # Memasukan data ke dalam dataframe
-    total = dfuser.shape[0]
-    totalindex = total - 1
-    last_id = dfuser["id"].iloc[totalindex]
-    userdata = {    "id"            : [last_id + 1],
-                "username"      : [username],
-                "nama"          : [nama],
-                "password"      : [password],
-                "role"          : ["user"],
-                "saldo"         : [0] }
-    df = pd.DataFrame(data=userdata)
-    dfjoin = pd.concat([dfuser,df], ignore_index = True)
+    # Melakukan penggabungan 2 list
+    newid = length
+    newuserlist = [str(newid), username, nama, password, "user", "0"]
+    mergedlist = mergelist(dfuser, newuserlist)
     print("Username", username,' telah berhasil register ke dalam "Binomo".')
-    return dfjoin
+    return mergedlist
 
 # F3 - Login
 def login(dfuser):
     username = input("Masukan username: ")
     password = input("Masukan password: ")
 
+    # Menghitung panjang dfuser
+    length = lengthlist(dfuser)
+        
     # Melakukan verifikasi terhadap username dan password
     index = 0
-    lastindex = dfuser.shape[0] - 1
     available = False       # Variabel untuk menjelaskan apakah username ada pada dataframe
     search = True           # Variabel untuk melakukan pencarian terhadap data user
     while (search == True):
-        if (dfuser["username"].iloc[index] == username):
+        if (dfuser[index][1] == username):              # kolom index 1 merupakan kolom username pada df user
             available = True            # Data username terdapat pada dataframe
             search = False              # Pencarian tidak perlu dilakukan lagi
-        if (index == lastindex and dfuser["username"].iloc[index] != username ):    # Sampai suku terakhir, tidak ditemukan data pengguna
+        if (index == length -1  and dfuser[index][1] != username ):    # Sampai suku terakhir, tidak ditemukan data pengguna
             available = False
             search = False
         if (search == True):            # Jika search = False, tidak perlu lagi dilakukan penambahan index
@@ -95,10 +93,10 @@ def login(dfuser):
         # Bila salah, tidak mengembalikan apapun
 
         # Mengembalikan chippered password ke initial password
-        initialpass = decryptpass(dfuser['password'].iloc[index], alphabet)
+        initialpass = decryptpass(dfuser[index][3], alphabet)           # kolom index ke 3 adalah kolom password disimpan
         # Melakukan cek apakah password yang dimasukan sama dengan initial password
         if (initialpass == password):
-            print("Halo "+ dfuser["nama"].iloc[index]+'! Selamat datang di "Binomo".')
+            print("Halo "+ dfuser[index][2] +'! Selamat datang di "Binomo".')           # kolom index ke 2 adalah kolom nama disimpan
             return index
         else:
             print("Password atau username salah atau tidak ditemukan.")
@@ -119,23 +117,27 @@ def login(dfuser):
 # F13 - Melihat Riwayat Pembayaran
 def riwayat(id, dfriwayat):
     # Format GameID | Nama game | Harga | Tahun Beli
+    
+    # Menghitung panjang dfriwayat
+    length = lengthlist(dfriwayat)
+
     # Melakukan pencarian id pada dfriwayat
-    index = 0                                       # Variabel digunakan untuk menyatakan index pada dataframe selama pencarian
     gameamount = 0                                  # Variabel digunakan untuk menghitung banyak game yang dimiliki
-    for i in dfriwayat["user_id"]:
-        if (i == id):
+    print("Daftar Game: ")
+    for i in range(length):                                 # i adalah variabel penghitung untuk pertambahan baris pada list dfriwayat
+        if (dfriwayat[i][3]== id):                  # Kolom index 3 adalah kolom dimana user_id disimpan
             gameamount +=1
-            gameid = dfriwayat["game_id"].iloc[index]
-            gamename = dfriwayat["nama"].iloc[index]
-            price = dfriwayat["harga"].iloc[index]
-            year  = dfriwayat["tahun_beli"].iloc[index]
+            gameid = dfriwayat[i][0]                                # Kolom index 0 adalah kolom dimana game_id disimpan
+            gamename = dfriwayat[i][1]                              # Kolom index 1 adalah kolom dimana game name disimpan
+            price = dfriwayat[i][2]
+            year  = dfriwayat[i][4]
 
             # Sebelum melakukan print, akan dimanfaatkan whitespace sehingga output terlihat lebih rapih
             gamenamemaxspace = 60                    # Menandakan panjang string maksimal dari sebuah nama game
             pricemaxspace = 15                       # Menandakan panjang string maksimal dari sebuah harga game
             price = str(price)
             gamename = str(gamename)
-            pricelength = 0 ; namelength = 0;
+            pricelength = 0 ; namelength = 0
 
             # Menghitung panjang string price dan gamename
             for i in price:
@@ -154,7 +156,7 @@ def riwayat(id, dfriwayat):
                 pricewhitespace = pricemaxspace - pricelength
             
             print(str(gameamount)+". "+ str(gameid)+" | "+str(gamename)+namewhitespace*" "+" | "+str(price)+pricewhitespace*" "+" | "+str(year)+" | ")
-        index +=1
+
     if (gameamount == 0):
         print("Maaf, kamu tidak ada riwayat pembelian game. Ketik perintah 'buy_game' untuk membeli.")
 
@@ -188,13 +190,8 @@ def help(role):
 # F15 - Load
     # Perlu make argparse
 # F16 - Save
-def save(df1,df2,df3,df4):
     # Belum ditambahin os.walk
     # Secara berturut-turut df1 = dfuser, df2 = dfgame, df3 = dfriwayat, df4 = dfkepemilikan.
-    df1.to_csv("./user.csv", sep = ';')
-    df2.to_csv("./game.csv", sep = ';')
-    df3.to_csv("./riwayat.csv", sep = ';')
-    df4.to_csv("./kepemilikan.csv", sep = ';')
 
 # F17 - Exit
 def exit():
@@ -209,16 +206,16 @@ def printdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):       # Untuk meli
     print("Ketik data yang ingin dilihat (1-4).")
     choice = input("1. User, 2. Game, 3.Riwayat, 4. Kepemilikan : ")
     
-    if (choice == '1'):
-        print(dfuser)
-    elif (choice == '2'):
-        print(dfgame)
-    elif (choice == '3'):
-        print(dfriwayat)
-    elif (choice == '4'):
-        print(dfkepemilikan)
+    if (choice == '1' or choice == 'user'):
+        printlist(dfuser)
+    elif (choice == '2' or choice == 'game'):
+        printlist(dfgame)
+    elif (choice == '3' or choice == 'riwayat'):
+        printlist(dfriwayat)
+    elif (choice == '4' or choice == 'kepemilikan'):
+        printlist(dfkepemilikan)
     else :
-        print("Pilihan data invalid.")
+        printlist("Pilihan data invalid.")
 
 
 
@@ -239,10 +236,10 @@ while (program == True):
 
         while(logged == True):      # Pengguna sudah masuk ke suatu akun
             print("==============================================")
-            id = dfuser['id'].iloc[index]
-            role = dfuser['role'].iloc[index]
+            id = dfuser[index][0]                                               # Kolom index 0 adalah kolom dimana id disimpan
+            role = dfuser[index][4]                                             # Kolom index 4 adalah kolom dimana role disimpan
             print("User ID  :", id)
-            print("Nama     :", dfuser['nama'].iloc[index])
+            print("Nama     :", dfuser[index][2])                               # Kolom index 2 adalah kolom dimana nama disimpan
             print("Role     :", role)
             
 
@@ -251,15 +248,16 @@ while (program == True):
 
             # Jika input adalah register
             if (action == 'register'):
-                if (role == 'admin'):
-                    dfuser = register(dfuser)
+                if (role == 'admin'):   
+                    dfuser = register(dfuser)                       # List dfuser diubah dengan dfuser gabungan yang baru
                 else:
                     print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
             # Jika action adalah login
             elif (action == 'login'):
-                if (login(dfuser) != None):         # Index berubah hanya jika login berhasil ke akun baru berhasil dilakukan 
-                    index = login(dfuser)   
+                newindex = login(dfuser)
+                if (newindex != None):                  # Index berubah hanya jika login berhasil ke akun baru berhasil dilakukan
+                    index = newindex
 
             # Jika action adalah riwayat
             elif (action == 'riwayat'):
@@ -275,7 +273,6 @@ while (program == True):
             # Jika action adalah exit
             elif (action == 'exit'):
                 if (exit() == 'y'):
-                    save(dfuser, dfgame, dfriwayat, dfkepemilikan)
                     program = False
                     logged = False
                 else :
@@ -310,7 +307,6 @@ while (program == True):
     # Jika action adalah exit
     elif (action == 'exit'):
         if (exit() == 'y'):
-            save(dfuser, dfgame, dfriwayat, dfkepemilikan)
             program = False
         else :
             program = False

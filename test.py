@@ -99,3 +99,53 @@ while (i < length):
 
 print(finalcode)
 '''
+
+# Membuat fungsi dari csv menjadi list
+'''
+user = open("user.csv", "r")
+
+# Ngukur panjang list
+length = 0
+for i in user:
+    length +=1
+
+# Lebar list 
+# user --> 6, game --> 6, riwayat --> 5, kepemilikan --> 2
+
+# lets say ini user data
+datalist = [[0 for i in range (6)]for i in range (length)]
+user.close()
+
+user = open("user.csv", "r")
+row = 0
+for i in user:
+    line = i
+    col = 0
+    word = ""
+    for j in line:
+        if (j == ";"):
+            datalist[row][col] = word
+            word = ""
+            col +=1
+        else:
+            word = word + j
+        
+    row +=1
+
+user.close()
+
+for i in datalist:
+    print(i)
+'''
+
+# Fungsi merge list
+'''
+list1 = [[1,2,3,4],
+         [5,6,7,8]]
+list2 = [9,1,2,3]
+
+listinlist = [list2]
+list3 = list1 + listinlist
+
+print(list3)
+'''
