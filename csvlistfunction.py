@@ -69,15 +69,17 @@ def mergelist(list1,list2):
     return mergedlist
 
 def lengthlist(list1):
+    # Fungsi mengembalikan suatu variabel integer "length" yang merupakan panjang dari suatu list
     length = 0
     for i in list1:
         length +=1
     return length
 
 def sortlist(list1):
+    # Prosedur untuk mengurutkan suatu list
     for i in range(lengthlist(list1) -1):
         for j in range(lengthlist(list1) -i -1):
-            if list1[j] > list1[j+1] :
-                temp = list1[j]
+            if list1[j] > list1[j+1] :          
+                temp = list1[j]                         # temp adalah variabel temporary untuk menyimpan data sementara
                 list1[j] = list1[j+1]
                 list1[j+1] = temp

@@ -112,14 +112,14 @@ def login(dfuser):
 # F8 - Membeli Game
 # F9 - Melihat Game yang dimiliki
 # F10 - Mencari Game yang dimiliki
-def search_my_game(dfgame,dfkepemilikan):
+def search_my_game(dfgame,dfkepemilikan, id):
     filter_id = input("Masukkan ID Game: ")
-    filter_tahun = input("Masukkan Tahun Rilis Game: \n")
+    filter_tahun = input("Masukkan Tahun Rilis Game: ")
 
     # Mengisi array mygame dengan data game yang dimiliki user
     mygame = []
     for i in range(1, lengthlist(dfkepemilikan)):
-            if dfkepemilikan[i][1]=='2':            # Jika sesuai dengan indeks user, maka
+            if dfkepemilikan[i][1] == id :            # Jika sesuai dengan indeks user, maka
                 mygame += [dfkepemilikan[i][0]]     # game akan disimpan ke list mygame
     sortlist(mygame)                                # Sorting untuk mengurutkan indeks game dari urutan terkecil
 
@@ -268,7 +268,7 @@ def search_game_at_store(dfgame):
 # F12 - Top Up Saldo
 def topup(dfuser):
     username = input("Masukkan username: ")
-    saldo = int(input("Masukkan saldo"))
+    saldo = int(input("Masukkan saldo: "))
 
     check = False                                           # Inisialisasi validasi user
     for i in range(1, lengthlist(dfuser)):                   
@@ -279,11 +279,15 @@ def topup(dfuser):
                 print("Masukan tidak valid")
             else:
                 dfuser[i][5] = str(saldoakhir)              # saldoakhir diubah lagi menjadi string
+                if (saldo >= 0):
+                    print("Top up berhasil. Saldo", dfuser[i][2],"bertambah menjadi "+str(saldoakhir)+".")       # Bila ditambahkan
+                else :
+                    print("Top up berhasil. Saldo", dfuser[i][2],"berkurang menjadi "+str(saldoakhir)+".")       # Bila dikurangi
             check = True                                    # Nama user tersedia di user.csv
             break                                           # ketika sudah selesai maka loop dihentikan
 
     if not check:                                           # user tidak tersedia di user.csv
-        print("Username",username,"tidak ditemukan.")
+        print("Username '"+username+"' tidak ditemukan.")
     return dfuser
 
 # F13 - Melihat Riwayat Pembayaran
@@ -305,7 +309,7 @@ def riwayat(id, dfriwayat):
             year  = dfriwayat[i][4]
 
             # Sebelum melakukan print, akan dimanfaatkan whitespace sehingga output terlihat lebih rapih
-            gamenamemaxspace = 60                    # Menandakan panjang string maksimal dari sebuah nama game
+            gamenamemaxspace = 45                   # Menandakan panjang string maksimal dari sebuah nama game
             pricemaxspace = 15                       # Menandakan panjang string maksimal dari sebuah harga game
             price = str(price)
             gamename = str(gamename)
@@ -435,7 +439,7 @@ while (program == True):
                 if (role == 'admin'):
                     print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
                 else:
-                    search_my_game(dfgame , dfkepemilikan)
+                    search_my_game(dfgame , dfkepemilikan, id)
             
             # Jika action adalah search_game_at_store search_game_at_store(dfgame)
             elif (action == 'search_game_at_store'):
