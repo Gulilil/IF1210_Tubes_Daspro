@@ -112,8 +112,180 @@ def login(dfuser):
 # F8 - Membeli Game
 # F9 - Melihat Game yang dimiliki
 # F10 - Mencari Game yang dimiliki
+def search_my_game(dfgame,dfkepemilikan):
+    filter_id = input("Masukkan ID Game: ")
+    filter_tahun = input("Masukkan Tahun Rilis Game: \n")
+
+    # Mengisi array mygame dengan data game yang dimiliki user
+    mygame = []
+    for i in range(1, lengthlist(dfkepemilikan)):
+            if dfkepemilikan[i][1]=='2':            # Jika sesuai dengan indeks user, maka
+                mygame += [dfkepemilikan[i][0]]     # game akan disimpan ke list mygame
+    sortlist(mygame)                                # Sorting untuk mengurutkan indeks game dari urutan terkecil
+
+    # Prosedur mencetak game sesuai filter
+    def selection(nomor,j):
+        print(nomor,end='. ')
+        for k in range(5):               
+            print(dfgame[j][k],end=' | ')
+        print()
+    
+    # Proses mencari data dari game user
+    print("Daftar game pada inventory yang memenuhi kriteria: ")
+    nomor = 0                                          # Inisialisasi nomor game yang akan dicetak
+    check = False
+    for i in range(lengthlist(mygame)):
+        for j in range(1, lengthlist(dfgame)):
+            if mygame[i] == dfgame[j][0]:                   # Indeks game sesuai dengan indeks pada game.csv
+                if not filter_id and not filter_tahun :     # Tidak ada kriteria sehingga output adalah semua game     
+                    nomor += 1
+                    check = True                        # user memiliki game di dalam library
+                    selection(nomor,j)
+                    
+                elif not filter_id and filter_tahun :   # Hanya ada filter tahun, output game dengan tahun sesuai
+                    if filter_tahun == dfgame[j][3]:    # Filter_tahun sesuai dengan tahun rilis game
+                        nomor += 1
+                        check = True                    # user memiliki game di dalam library
+                        selection(nomor,j)
+
+                elif filter_id  and not filter_tahun :  # Hanya ada filter ID game, output game dengan ID sesuai
+                    if filter_id == dfgame[j][0]:       # Indeks game user sama dengan indeks game pada game.csv
+                        nomor += 1                      
+                        check = True                    # user memiliki game di dalam library
+                        selection(nomor,j)
+
+                else:                                                              # filter_tahun dan filter_id terisi      
+                    if filter_id == dfgame[j][0] and filter_tahun == dfgame[j][3]: # Filter tahun dan ID game yang sesuai
+                        nomor += 1
+                        check = True
+                        selection(nomor,j)
+    if not check:                                          # Jika check = False, maka tidak ada data game yang dimiliki user
+        print("Tidak ada game pada inventory-mu yang memenuhi kriteria")
+
 # F11 - Mencari Game di Toko 
+def search_game_at_store(dfgame):
+    temp = []                                               # Inisialisasi dari list yang akan diisi game yang sesuai filter
+    idgame = input("Masukkan ID Game: ")                    # Input ID Game
+    ngame = input("Masukkan Nama Game: ")                   # Input nama game
+    hgame = input("Masukkan Harga Game: ")                  # Input harga game
+    catgame = input("Masukkan Kategori Game: ")             # Input kategori game
+    trgame = input("Masukkan Tahun Rilis Game: ")           # Input tahun rilis game
+
+    # Fungsi jika filter merupakan yang pertama
+    def filterawal(filter,c,temp):                      # fungsi dijalankan jika filter yang diisi adalah yang pertama kali
+        for i in range(lengthlist(dfgame)):                 
+            if filter == dfgame[i][c]:                  # filter sesuai dengan isi game
+                temp += [dfgame[i]]                     # temp akan diisi oleh data game yang sesuai
+        return temp                                     # nilai temp dikembalikan
+
+    # Fungsi jika filter bukan yang pertama
+    def filternext(filter, b,temp):                     # fungsi yang dijalankan apabila filter yang diisi bukan yang pertama kali
+        temp2=[]                                        # Inisialisasi dari list sementara dari list temp
+        for i in range(lengthlist(temp)):               
+            if filter == temp[i][b]:                    # filter selanjutnya sesuai dengan isi game pada list temp
+                temp2 = [temp[i]]                       # list temp2 akan diisi data yang sesuai
+        temp = temp2                                    # temp akan diganti dengan temp2 yang sudah difilter
+        return temp                                     # nilai temp akan dikembalikan
+    
+    # Fungsi mencetak
+    def printing(n, list):                              # fungsi untuk mencetak hasil filter
+        nomor = 1                                       # inisialisasi nomor data di awal cetak
+        for i in range(n, lengthlist(list)):        
+            print(nomor,end='. ')                       # nomor dicetak
+            for j in range(6):
+                print(list[i][j], end=' | ')            # mencetak semua detail dari game, mulai dari id sampai stok
+            print()
+            nomor += 1                                  # nomor akan selalu ditambah 1
+
+    # Loop filter dari game
+    check = True                                        # inisialisasi dari variabel check
+    first = True                                        # inisialisasi variabel first yang berarti pertama kali dijalankan
+    while check:
+        if idgame:                                      # idgame terisi
+            filterawal(idgame ,0, temp)                 # filter awal              
+            first = False                               # filter merupakan yang pertama diisi, sehingga filter selanjutnya bukan first (first = False)
+            if not temp:                                # filter terisi, namun hasil filter kosong
+                break                                   # loop berhenti
+    
+        if ngame:                                       # nama game terisi
+            if first:                                   # merupakan yang pertama diisi
+                filterawal(ngame ,1, temp)              # filter awal
+                first = False                           # filter merupakan yang pertama diisi, sehingga filter selanjutnya bukan first (first = False)
+                if not temp:                            # filter terisi, namun hasil filter kosong 
+                    break                               # loop berhenti
+            else:
+                if temp:                         # temp terisi, bukan filter pertama
+                    filternext(ngame, 1, temp)   # filter tahap selanjutnya
+                    if not temp:
+                        break                           
+
+        if hgame:       # harga game terisi
+            if first:   # merupakan yang pertama diisi
+                filterawal(hgame ,4, temp)  # filter awal                      
+                first = False               # filter merupakan yang pertama diisi, sehingga filter selanjutnya bukan first (first = False)
+                if not temp:                # filter terisi, namun hasil filter kosong
+                    break                   # loop berhenti
+            else:
+                if temp:                        # temp terisi, bukan filter pertama
+                    filternext(hgame, 4, temp)  # filter selanjutnya
+                    if not temp:                # hasil filter list kosong atau tidak ada yang sesuai
+                        break                   # loop berhenti
+                    
+        if catgame:     # kategori game terisi
+            if first:   # merupakan yang pertama diisi
+                filterawal(catgame ,2, temp)    # filter awal            
+                first = False                   # filter merupakan yang pertama diisi, sehingga filter selanjutnya bukan first (first = False)
+                if not temp:                    # filter terisi, namun hasil filter kosong
+                    break
+            else:
+                if temp:                            # temp terisi, bukan filter pertama
+                    filternext(catgame, 2, temp)    # filter selanjutnya
+                    if not temp:                    # hasil filter list kosong atau tidak ada yang sesuai
+                        break                       # loop berhenti
+
+        if trgame:      # tahun rilis game terisi
+            if first:   # merupakan yang pertama diisi
+                filterawal(trgame ,3, temp) # filter awal            
+                first = False               # filter merupakan yang pertama diisi, sehingga filter selanjutnya bukan first (first = False)
+                if not temp:                # filter terisi, namun hasil filter kosong
+                    break
+            else:
+                if temp:                        # temp terisi, bukan filter pertama
+                    filternext(trgame, 3, temp) # filter selanjutnya
+                    if not temp:                # hasil filter list kosong atau tidak ada yang sesuai
+                        break                   # loop berhenti
+        check = False
+
+    print("Daftar game pada toko yang memenuhi kriteria: ")
+    if not idgame and not ngame and not hgame and not catgame and not trgame:   # filter kosong
+        printing(1, dfgame) # output adalah semua game di toko
+    else:                   # filter ada yang terisi
+        if not temp:        # hasil filter kosong
+            print("Tidak ada game yang memenuhi kriteria")
+        elif temp:          # filter terisi
+            printing(0, temp)   # output adalah game hasil filter yang terdapat pada list temp
+    
 # F12 - Top Up Saldo
+def topup(dfuser):
+    username = input("Masukkan username: ")
+    saldo = int(input("Masukkan saldo"))
+
+    check = False                                           # Inisialisasi validasi user
+    for i in range(1, lengthlist(dfuser)):                   
+        if username == (dfuser[i][1]):                      # User tervalidasi
+            saldoakhir = int(dfuser[i][5])                  # data saldo user diubah menjadi integer
+            saldoakhir += saldo                             # operasi penambahan/pengurangan saldo
+            if saldoakhir < 0:                              # saldo berupa negatif
+                print("Masukan tidak valid")
+            else:
+                dfuser[i][5] = str(saldoakhir)              # saldoakhir diubah lagi menjadi string
+            check = True                                    # Nama user tersedia di user.csv
+            break                                           # ketika sudah selesai maka loop dihentikan
+
+    if not check:                                           # user tidak tersedia di user.csv
+        print("Username",username,"tidak ditemukan.")
+    return dfuser
+
 # F13 - Melihat Riwayat Pembayaran
 def riwayat(id, dfriwayat):
     # Format GameID | Nama game | Harga | Tahun Beli
@@ -159,7 +331,6 @@ def riwayat(id, dfriwayat):
 
     if (gameamount == 0):
         print("Maaf, kamu tidak ada riwayat pembelian game. Ketik perintah 'buy_game' untuk membeli.")
-
 
 # F14 - Help
 def help(role):
@@ -259,6 +430,24 @@ while (program == True):
                 if (newindex != None):                  # Index berubah hanya jika login berhasil ke akun baru berhasil dilakukan
                     index = newindex
 
+            # Jika action adalah search_my_game
+            elif (action == 'search_my_game'):
+                if (role == 'admin'):
+                    print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
+                else:
+                    search_my_game(dfgame , dfkepemilikan)
+            
+            # Jika action adalah search_game_at_store search_game_at_store(dfgame)
+            elif (action == 'search_game_at_store'):
+                search_game_at_store(dfgame)
+            
+            # Jika action adalah topup
+            elif (action == 'topup'):
+                if (role == 'admin'):
+                    topup(dfuser)
+                else:
+                    print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+                
             # Jika action adalah riwayat
             elif (action == 'riwayat'):
                 if (role == 'admin'):

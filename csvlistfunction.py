@@ -73,3 +73,11 @@ def lengthlist(list1):
     for i in list1:
         length +=1
     return length
+
+def sortlist(list1):
+    for i in range(lengthlist(list1) -1):
+        for j in range(lengthlist(list1) -i -1):
+            if list1[j] > list1[j+1] :
+                temp = list1[j]
+                list1[j] = list1[j+1]
+                list1[j+1] = temp
