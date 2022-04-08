@@ -97,6 +97,33 @@ def login(dfuser):
         return None
 
 # F4 - Menambah Game ke Toko
+#F4 - Menambah Game ke Toko Game
+def tambah_game(dfgame):
+  namaGame = input("Masukkan nama game: ")
+  kategori = input("Masukkan kategori: ")
+  tahun = input("Masukkan tahun rilis: ")
+  harga = input("Masukkan harga: ")
+  stok = input("Masukkan stok awal: ")
+
+# Melakukan validasi terhadap informasi yang telah diinput
+if namaGame is None:
+  return tambah_game
+elif kategori is None:
+  return tambah_game
+elif tahun is None:
+  return tambah_game
+elif harga is None:
+  return tambah_game
+elif stok is None:
+  return tambah_game
+
+userdata = {  "gameid"  : "GAME" + [last_id + 1],
+              "nama game" : [namaGame],
+              "kategori" : [kategori],
+              "tahun rilis" : [tahun],
+              "harga" : [harga],
+              "stok" : [stok] } 
+
 # F5 - Mengubah Game pada Toko
 # F6 - Mengubah Stok Game di Toko
 # F7 - Listing Game di Toko 
