@@ -1,3 +1,4 @@
+# File ini berisikan fungsi-fungsi yang digunakan untuk menjalankan program tic-tac-toe
 
 #Fungsi Tic Tac Toe
 def printboard(board): #Untuk melakukan print papan tictactoe

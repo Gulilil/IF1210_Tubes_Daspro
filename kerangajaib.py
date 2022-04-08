@@ -1,3 +1,5 @@
+# File ini berisikan fungsi-fungsi yang digunakan untuk menjalankan program kerang ajaib
+
 import time
 
 # Fungsi Kerang Ajaib

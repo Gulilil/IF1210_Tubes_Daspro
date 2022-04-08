@@ -1,0 +1,11 @@
+id;nama;kategori;tahun_rilis;harga;stok
+GAME001;Elden Ring;RPG;2022;600000;5
+GAME002;Payday 2;FPS;2013;80000;7
+GAME003;Outlast 2;Horror;2017;140000;13
+GAME004;Assassin's Creed Origins;RPG;2017;620000;2
+GAME005;Tomb Raider;Adventure;2013;160000;5
+GAME006;The Forest;Survival;2018;109000;8
+GAME007;ABZU;Exploration;2016;136000;4
+GAME008;Borderlands2;FPS;2012;136000;6
+GAME009;Craftopia;Survival;2020;120000;3
+GAME010;Portal 2;Puzzle;2011;70000;9
