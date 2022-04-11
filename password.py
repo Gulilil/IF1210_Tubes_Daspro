@@ -11,8 +11,8 @@ y - 97 = (4x + 116 ) mod 26  --> 4x + 116 = 26*(hasil bagi) + y -97
 
 dengan x = code ASCII dari huruf asli,
        y = code ASCII dari huruf chippered,
-       29 = penambah (increment),
-       4  = pengali (multiplier),
+       4  = pengali (multiplier) = merupakan key1,
+       29 = penambah (increment) = merupakan key2,
        mod 26 dilakukan agar hasil yang didapat berkisar pada 0 - 25 (melambangkan urutan alphabet dari A - Z dengan A = 0),
        penambahan 97 dilakukan untuk menyesuaikan dengan kode ASCII untuk alphabet non-kapital (range 97 - 122)
 
@@ -25,8 +25,10 @@ def encryptpass(password, alphabet):
     newpass = ""                                        # Variabel ini akan digunakan untuk menyimpan password simpanan
     for i in password:
         if (i in alphabet or i in alphabet.upper()):    # Pengubahan pass dilakukan hanya pada komponen huruf saja
-            chipcode = (4*(ord(i)+29))% 26 +97
-            varkey = 4*(ord(i)+29) // 26                # Varkey adalah variabel kunci yang digunakan nanti saat pengembalian pass (baca penjelasan)
+            key1 = 4
+            key2 = 29
+            chipcode = (key1*(ord(i)+key2))% 26 +97
+            varkey = key1*(ord(i)+key2) // 26                # Varkey adalah variabel kunci yang digunakan nanti saat pengembalian pass (baca penjelasan)
             newalphabet = chr(chipcode)
 
             newpass = newpass + str(varkey) + newalphabet
@@ -71,7 +73,9 @@ def decryptpass(password, alphabet):
 
         # Melakukan pengembalian ke password semula
         if (require1 == True and require2 == True):
-            initcode = (26*varkey + ord(chipcode) - 97 - 116)/4         # Menggunakan fungsi yang terdapat pada penjelasan
+            key1 = 4
+            key2 = 29
+            initcode = (26*varkey + ord(chipcode) - 97 - (key1*key2))/key1         # Menggunakan fungsi yang terdapat pada penjelasan
             initalphabet = chr(int(initcode))
             initpass = initpass + initalphabet                          # Penggabungan hasil konversi password ke variabel initpass
             i = i + 3                                                   # Dilakukan +3 untuk melompati 2 suku yang telah dicek
