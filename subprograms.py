@@ -355,25 +355,20 @@ def help(role):
 
 # F15 - Load
     # Perlu make argparse
-def load():
-    folder = input("Masukkan nama folder yang ingin dibuka: ")
-    
-    if (folder == None):                                        # Jika pengguna tidak menginputkan apapun
-        print("Tidak ada nama folder yang diberikan!")
-        return None, None, None, None
-    else:
-        # Melakukan pengecekan apakah folder dengan nama yang diinputkan memang benar ada
+def load(folder):
+    if(folder != "."):                                           # menghindari penggunaan input "."
         check = os.path.isdir("./csv files/"+folder)
-        if (check == False):                                    # Folder tersebut tidak ada
+        if (check == False):
             print('Folder "'+folder+'" tidak ditemukan.')
-            return None, None, None, None
-        else:                                                   # Folder tersebut memang ada
-            dfuser = csvtolist("user",6,folder)
-            dfgame = csvtolist("game",6,folder)
-            dfriwayat = csvtolist("riwayat",5,folder)
-            dfkepemilikan = csvtolist("kepemilikan", 2,folder)
+            return None
+        else:
+            print("Loading...")
+            time.sleep(3)
             print('Selamat datang di antarmuka "Binomo"')
-            return dfuser, dfgame, dfriwayat, dfkepemilikan
+            return folder
+    else:                                                           
+        print('Folder "'+folder+'" tidak ditemukan.')
+        return None
 
 # F16 - Save
 def save(df1, df2, df3, df4):
