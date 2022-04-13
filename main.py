@@ -37,18 +37,18 @@ if __name__ == '__main__':
         print("Tidak ada nama folder yang diberikan!")
 
     while (program == True):
+        # Inisasi Data yang akan dipakai
+        # Saat pertama kali pembacaan, program akan membaca save data pada folder 'main save'
+        dfuser = csvtolist("user",6,folder)
+        dfgame = csvtolist("game",6,folder)
+        dfriwayat = csvtolist("riwayat",5,folder)
+        dfkepemilikan = csvtolist("kepemilikan", 2,folder)
         print("========================================================================================")
-        print("Tindakan yang bisa dilakukan tanpa login: 'login', 'kerangajaib', 'tictactoe', dan 'exit'")
+        print("Ketik 'help' untuk melihat perintah yang dapat dilakukan.")
         action = input("Silahkan ketikkan perintah: ").lower()
         logged = False              # Variabel yang menjelaskan apakah pengguna sudah login atau belum
+        role = 'guest'                # Jika belum melakukan login, role yang diberikan adalah 'guest'
         if (action == 'login'):
-            # Inisasi Data yang akan dipakai
-            # Saat pertama kali pembacaan, program akan membaca save data pada folder 'main save'
-            dfuser = csvtolist("user",6,folder)
-            dfgame = csvtolist("game",6,folder)
-            dfriwayat = csvtolist("riwayat",5,folder)
-            dfkepemilikan = csvtolist("kepemilikan", 2,folder)
-
             index = login(dfuser)
             if (index == None):
                 logged = False
@@ -62,6 +62,7 @@ if __name__ == '__main__':
                 print("User ID  :", id)
                 print("Nama     :", dfuser[index][2])                               # Kolom index 2 adalah kolom dimana nama disimpan
                 print("Role     :", role)
+                print("Saldo    :", dfuser[index][5])
                 
 
                 # Menanyakan kembali pengguna, tindakan yang akan dilakukan
@@ -76,9 +77,21 @@ if __name__ == '__main__':
 
                 # Jika action adalah login
                 elif (action == 'login'):
-                    newindex = login(dfuser)
-                    if (newindex != None):                  # Index berubah hanya jika login berhasil ke akun baru berhasil dilakukan
-                        index = newindex
+                    print("Anda sedang menggunakan akun dengan username '"+dfuser[index][1]+"'.")         # username disimpan pada data kolom index 1
+                    print("Silakan logout terlebih dahulu untuk melakukan login menggunakan akun lain.")
+
+                # Jika action adalah logout
+                elif (action == 'logout'):
+                    result = logout(dfuser, index)      
+                    if (result == True):            # Jika pengguna ingin keluar dari akunnya, maka variabel logged menjadi False
+                        logged = False
+
+                # Jika action adalah ubah stock game
+                elif (action == 'ubah_stok'):
+                    if (role == 'admin'):
+                        ubah_stok(dfgame)
+                    else:
+                        print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
                 # Jika action adalah search_my_game
                 elif (action == 'search_my_game'):
@@ -142,6 +155,10 @@ if __name__ == '__main__':
                 else:
                     print("Maaf perintah tersebut tidak dapat diproses.")
 
+        # Jika action adalah help
+        elif (action == 'help'):
+            help(role)
+
         # Melakukan permainan kerang ajaib tanpa melakukan login
         elif (action == 'kerangajaib'):
                 kerangajaib()
@@ -153,6 +170,7 @@ if __name__ == '__main__':
                 program = False
         else :                              # pengguna tidak menginputkan 'login'
             print('Maaf, anda harus login terlebih dahulu untuk mengirim perintah selain "login".')
+
 
 
 

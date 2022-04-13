@@ -1,12 +1,37 @@
 # File ini berisikan fungsi-fungsi yang digunakan untuk menjalankan program tic-tac-toe
 
-#Fungsi Tic Tac Toe
+# Subprogram Melakukan Output Papan Permainan TicTacToe
+# procedure printboard (matrix board)
+'''
+Deskripsi :
+Prosedur tersebut sebuah input yaitu 'board' yang bertipe matrix. Prosedur akan melakukan print untuk setiap 
+baris pada board sehingga dapat dilihat oleh pemain.
+
+Kamus :
+    board : matrix of char
+    i, j : int
+'''
+# Algoritma 
 def printboard(board): #Untuk melakukan print papan tictactoe
     for i in range (3):
         for j in range(3):
             print(board[i][j],end='')
         print()
 
+
+# Subprogram Melakukan Pengecekan Petak
+# function checkxy(matrix board)
+'''
+Deskripsi :
+Fungsi tersebut sebuah input yaitu 'board' yang bertipe matrix. Fungsi ini akan melakukan pengecekan
+pada variabel 'board' yang berfungsi sebagai papan mengenai apakah suatu petak bersifat valid untuk diisi. 
+Petak yang bersifat valid adalah petak kosong, dalam hal ini, maka petak tersebut diisi dengan "#".
+
+Kamus :
+    board : matrix of char
+    iy, ix : int
+'''
+# Algoritma
 def checkxy(x,y,board):
     iy = y-1            #iy adalah index y pada papan
     ix = x-1            #ix adalah index x pada papan
@@ -18,6 +43,20 @@ def checkxy(x,y,board):
         return False
     return True
 
+
+# Subprogram Melakukan Pengecekan Pemenang
+# function checkwin(matrix board)
+'''
+Deskripsi :
+Fungsi tersebut sebuah input yaitu 'board' yang bertipe matrix. Fungsi ini akan melakukan pengecekan
+pada variabel 'board' yang berfungsi sebagai papan untuk mengeluarkan output apakah sudah ada pemenang 
+dalam permainan tersebut. Pengecekan pemenang akan dilakukan sesuai dengan aturan tic-tac-toe.
+
+Kamus :
+    board : matrix of char
+    i, j : int
+'''
+# Algoritma
 def checkwin(board):
     # Fungsi mengeluarkan return True jika permainan selesai (sudah ada pemenang)
     # Check horizontal:
@@ -53,6 +92,22 @@ def checkwin(board):
         return True
     return False
 
+
+# Subprogram Melakukan Pengecekan Berakhir Seri
+# function checkdraw(matrix board)
+'''
+Deskripsi :
+Fungsi tersebut sebuah input yaitu 'board' yang bertipe matrix. Fungsi ini akan melakukan pengecekan
+pada variabel 'board' yang berfungsi sebagai papan mengenai apakah permainan telah berakhir dengan seri. 
+Fungsi ini dilakukan setelah pengecekan pemenang. Bila belum ditemukan pemenang, maka ada 2 kemungkinan yaitu
+permainan masih berlanjut atau permainan berakhir dengan seri.
+
+Kamus :
+    board : matrix of char
+    hashcount : int
+    i, j : int
+'''
+# Algoritma
 def checkdraw(board):
     hashcount = 0                   # Menghitung banyaknya hashtag pada papan
     for i in range(3):
@@ -65,6 +120,21 @@ def checkdraw(board):
         print("Permainan selesai dengan berakhir seri.")
         return True
 
+
+# Subprogram Melaksanakan Permainan Tic-Tac-Toe
+# procedure tictactoe()
+'''
+Deskripsi :
+Prosedur tictactoe memiliki fungsi untuk menjalankan permainan tictactoe. Prosedur ini menjadi komponen utama
+dalam mengatur segala fungsi-fungsi lainnya yang menunjang pelaksanaan permainan tictactoe.
+
+Kamus :
+    game : bool
+    round : int
+    board : matrix of char
+    x, y : int
+'''
+# Algoritma 
 def tictactoe():
     print("Legenda: ")
     print("# Kosong")

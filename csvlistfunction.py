@@ -1,5 +1,23 @@
 
+# Subprogram Pengubahan Data File CSV menjadi List Matrix
+# function csvtolist (string file, int component, string folder)
+'''
+Deskripsi :
+Fungsi tersebut memiliki 3 buah input, 'file' bertipe string merupakan penentu sebagai indikasi file csv apa yang ingin diubah. 
+Lalu 'component' bertipe integer yang merupakan lebar data list yang ingin dibentuk dari data csv. Terakhir, 'folder' bertipe 
+string sebagai penunjuk jalan akan folder mana yang ingin dibuka.
 
+Kamus :
+    file, folder : string
+    component, length : int
+    data : file of string
+    datalist : matrix of string
+    row, col, sum, index : int
+    line : string
+    word : string
+
+'''
+# Algoritma 
 def csvtolist (file,component, folder):
     # Component adalah lebar data csv
     # user.csv --> 6, game.csv --> 6, riwayat.csv --> 5, kepemilikan.csv --> 2
@@ -57,10 +75,36 @@ def csvtolist (file,component, folder):
     data.close
     return datalist
 
+
+# Subprogram Melakukan Output Sebuah List atau Matriks 
+# procedure printlist(array datalist)
+'''
+Deskripsi :
+Prosedur tersebut memiliki sebuah input, 'datalist', yang bertipe array. Fungsi ini akan melakukan print atau mengeluarkan 
+output untuk setiap data yang terletak pada array tersebut secara berurutan.
+
+Kamus :
+    datalist : array 
+'''
+# Algoritma 
 def printlist(datalist):
     for i in datalist:
         print(i)
 
+
+# Subprogram menggabungkan dua buah list
+# function mergelist(array list1, array list2)
+'''
+Deskripsi :
+Fungsi tersebut memiliki 2 buah input, 'list1' dan 'list2', yang keduanya bertipe array. Fungsi ini digunakan untuk menggabungkan
+kedua fungsi tersebut sehingga menjadi suatu fungsi yang baru. Fungsi baru yang dihasilkan akan memiliki data dari 'list1' terlebih 
+dahulu kemudian ditambah dengan data dari 'list2'
+
+Kamus :
+    listinlist : array 
+    mergedlist : array
+'''
+# Algoritma 
 def mergelist(list1,list2):
     # Asumsikan list1 adalah list yang panjang dan list 2 merupakan list 1 baris
     # Asumsikan lebar list1 dan list2 sama
@@ -68,6 +112,20 @@ def mergelist(list1,list2):
     mergedlist = list1 + listinlist
     return mergedlist
 
+
+# Subprogram Mengukur panjang sebuah List 
+# function lengthlist(array datalist)
+'''
+Deskripsi :
+Fungsi tersebut memiliki sebuah input, 'list1', yang bertipe array. Fungsi ini akan melakukan perhitungan
+untuk setiap data yang ada pada array tersebut. Untuk setiap data yang ada pada array, nilai variabel penghitung
+akan bertambah sebanyak 1.
+
+Kamus :
+    list1 : array or string 
+    length : int
+'''
+# Algoritma 
 def lengthlist(list1):
     # Fungsi mengembalikan suatu variabel integer "length" yang merupakan panjang dari suatu list
     length = 0
@@ -75,6 +133,17 @@ def lengthlist(list1):
         length +=1
     return length
 
+# Subprogram Mengurutkan List 
+# function sortlist(array list1)
+'''
+Deskripsi :
+Prosedur tersebut memiliki sebuah input, 'list1', yang bertipe array. Fungsi ini akan melakukan pengurutan dengan urutan membesar.
+
+Kamus 
+    list1 : array 
+    temp : int or string
+'''
+# Algoritma 
 def sortlist(list1):
     # Prosedur untuk mengurutkan suatu list
     for i in range(lengthlist(list1) -1):
@@ -84,7 +153,22 @@ def sortlist(list1):
                 list1[j] = list1[j+1]
                 list1[j+1] = temp
 
-def listtocsv(file, component, folder, dataframe):
+# Subprogram Pengubahan List Matrix menjadi Data CSV
+# procedure sortlist(string file, string folder, array dataframe)
+'''
+Deskripsi :
+Prosedur tersebut memiliki 3 buah input, 'file' bertipe string yang mengindikasikan jenis file yang ingin dimasukkan menjadi csv.
+Lalu, 'folder' bertipe string yang merupakan penunjuk jalan sebagai tempat penyimpanan data. Terakhir, 'dataframe' yang bertipe matrix
+of string berupa data yang ingin disimpan dalam suatu csv.
+
+Kamus 
+    data : file of string
+    length, component : int
+    row, col : int
+    line : string
+'''
+# Algoritma 
+def listtocsv(file, folder, dataframe):
     # Melakukan seleksi ke file csv mana save akan dilakukan
     # Fungsi ini juga dapat digunakan untuk membuat file baru, sehingga tidak perlu
     # dilakukan pembuatan fungsi sendiri untuk pembuatan file.csv baru
@@ -99,6 +183,9 @@ def listtocsv(file, component, folder, dataframe):
 
     # Mengukur panjang list dari dataframe
     length = lengthlist(dataframe)
+
+    # Mengukur lebar list dari dataframe
+    component = lengthlist (dataframe[0])
 
     # Setiap row dari data frame akan dibuat menjadi suatu line bertipe string yang dipisahkan oleh ";"
     for row in range(length):

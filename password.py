@@ -19,10 +19,28 @@ dengan x = code ASCII dari huruf asli,
 Hasil bagi (4(x+29)) div 26 akan disimpan sebagai suatu variabel kunci. Variabel kunci ini akan digunakan untuk 
 menentukan angka semula sehingga dapat mengembalikan chippered password menjadi initial password.
 '''
-alphabet = "abcdefghijklmnopqrstuvwxyz"             #daftar alphabet
 
-def encryptpass(password, alphabet):
+
+# Subprogram Pengubahan Password Semula menjadi Kode Password
+# function enctryptpass (string password)
+'''
+Deksripsi : 
+Fungsi ini memiliki 1 input yaitu variable password yang bertipe string. Password merupakan password awal yang diinputkan oleh
+pengguna. Fungsi ini digunakan untuk mengubah password tersebut menjadi sebuah kode password untuk disimpan dalam file penyimpanan.
+
+Kamus Lokal
+    alphabet : string = "abcdefghijklmnopqrstuvwxyz"
+    newpass, password : string
+    key1, key2 : int
+    chipcode, varkey : int
+    newalphabet : char
+'''
+# Algoritma
+         #daftar alphabet
+
+def encryptpass(password):
     newpass = ""                                        # Variabel ini akan digunakan untuk menyimpan password simpanan
+    alphabet = "abcdefghijklmnopqrstuvwxyz"    
     for i in password:
         if (i in alphabet or i in alphabet.upper()):    # Pengubahan pass dilakukan hanya pada komponen huruf saja
             key1 = 4
@@ -43,7 +61,29 @@ Contoh hasil:
     Untuk password masukan = "Huhu123Haha", newpass yang dikeluarkan adalah = "15o22m20m22m12315o19k20m19k"
 '''
 
-def decryptpass(password, alphabet):
+
+
+# Subprogram Pengubahan Kode Password menjadi Password Semula
+# function decryptpass (string password) 
+'''
+Deksripsi:
+Fungsi ini memiliki suatu input variabel password yang bertipe string. Fungsi ini digunakan untuk mengembalikan
+kode password pada file penyimpanan menjadi bentuk password semula yang diinputkan oleh user.
+
+Kamus Lokal
+    alphabet : string = "abcdefghijklmnopqrstuvwxyz"
+    length : int
+    initpass : string
+    varkey : int
+    require1, require2 : bool
+    chipcode : int
+    key1, key2 : int
+    initcode : int
+    initalphabet : char
+'''
+# Algoritma
+def decryptpass(password):
+    alphabet = "abcdefghijklmnopqrstuvwxyz"    
 
     # Pertama-tama perlu ditentukan terlebih dahulu panjang dari string password
     length = 0

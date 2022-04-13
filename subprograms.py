@@ -8,10 +8,10 @@ from csvlistfunction import *
 # Kamus :
 
 # SUB PROGRAM
-# F2 - Register
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 numbersymbol = "0123456789-_"
 
+# F2 - Register
 def register(dfuser):
     nama = input("Masukan nama: ")
     username = input("Masukan username: ")
@@ -48,7 +48,7 @@ def register(dfuser):
                 uservalid = False
 
     # Mengubah password yang diinputkan menjadi chippered password 
-    password = encryptpass(password, alphabet)
+    password = encryptpass(password)
 
     # Melakukan penggabungan 2 list
     newid = length
@@ -84,7 +84,7 @@ def login(dfuser):
         # Bila salah, tidak mengembalikan apapun
 
         # Mengembalikan chippered password ke initial password
-        initialpass = decryptpass(dfuser[index][3], alphabet)           # kolom index ke 3 adalah kolom password disimpan
+        initialpass = decryptpass(dfuser[index][3])           # kolom index ke 3 adalah kolom password disimpan
         # Melakukan cek apakah password yang dimasukan sama dengan initial password
         if (initialpass == password):
             print("Halo "+ dfuser[index][2] +'! Selamat datang di "Binomo".')           # kolom index ke 2 adalah kolom nama disimpan
@@ -96,9 +96,60 @@ def login(dfuser):
         print("Password atau username salah atau tidak ditemukan.")
         return None
 
+def logout(dfuser, index):
+    choice = input("Apakah anda ingin melakukan logout? (y/n) ").lower()
+    if (choice == 'y'):
+        print("Anda sudah keluar dari akun anda. Sampai jumpa "+dfuser[index][2]+"!")
+        return True
+    elif (choice == 'n'):
+        print("Anda masih menggunakan akun dengan username '"+dfuser[index][1]+"'. Selamat berbelanja!")
+        return False
+    else:
+        print("Input yang dimasukkan tidak valid.")
+        return False
+
+
 # F4 - Menambah Game ke Toko
 # F5 - Mengubah Game pada Toko
 # F6 - Mengubah Stok Game di Toko
+def ubah_stok(game):
+    id_game = input("Masukkan ID Game: ")
+    isAda = False                                   # isAda adalah variabel yang menunjukkan apakah ID game yang diinputkan benar ada
+
+    # Mengukur panjang data game
+    length = lengthlist (game)
+
+    # Mencari apakah ada game id sesuai yang diinputkan dengan user
+    search = True                       # variabel yang menunjukkan apakah pencarian perlu dilakukan
+    index = 0
+    while (search == True):
+        if (game[index][0] == id_game):
+            isAda = True
+            search = False              # jika idgame sudah ditemukan, pencarian sudah tidak perlu lagi dilakukan
+        elif (index >= length-1):           # dilakukan jika sudah dilakukan pengecekan hingga suku terakhir, tetapi tidak ditemukan
+            search = False
+        if (search == True):            # Penambahan index hanya dilakukan apabila pencarian masih berlanjut
+            index +=1
+    
+    # Melakukan pencarian bila game tersebut ada pada data
+    if (isAda == True):
+        print("Stock '"+game[index][1]+"' sekarang adalah "+game[index][5]+".")
+        jumlah_baru = int(input("Masukkan jumlah yang ingin diubah : "))
+        stok = int(game[index][5])
+        if (jumlah_baru < 0):
+            if(stok + jumlah_baru >= 0):                       # Stok berada pada kolom index no 5
+                # Melakukan perubahan pada stok game index ke-n
+                stok += jumlah_baru
+                game[index][5] = stok
+                print(jumlah_baru*(-1),"stok dari", game[index][1], "berhasil dikurangi. Stok sekarang:", stok)
+            else :
+                print(jumlah_baru*(-1),"stok dari", game[index][1], "gagal dikurangi karena stok kurang. Stok sekarang:", stok,"(<"+str(jumlah_baru*-1)+")")
+        else :
+            stok += jumlah_baru
+            game[index][5] = stok
+            print(jumlah_baru, "stok dari", game[index][1],"berhasil ditambahkan. Stok sekarang:", (stok))
+    else:                                                                     # Dilakukan apabila tidak ada game dengan id tersebut
+        print("Tidak ada item dengan ID tersebut!")
 # F7 - Listing Game di Toko 
 # F8 - Membeli Game
 # F9 - Melihat Game yang dimiliki
@@ -329,7 +380,14 @@ def riwayat(id, dfriwayat):
 
 # F14 - Help
 def help(role):
-    if (role == 'admin'):
+    if (role == 'guest'):
+        print("================ HELP ================ ")
+        print("login                - Melakukan login ke dalam sistem.")                                            #F3
+        print("help                 - Menampilkan perintah yang dapat dilakukan.")                                  #F14
+        print("kerangajaib          - Menanyakan suatu pertanyaan pada kerang ajaib.")
+        print("tictactoe            - Memulai permainan tictactoe.")
+
+    elif (role == 'admin'):
         print("================ HELP ================ ")
         print("register             - Melakukan registrasi user baru.")                                             #F2
         print("login                - Melakukan login ke dalam sistem.")                                            #F3
@@ -339,6 +397,7 @@ def help(role):
         print("list_game_toko       - Mengurutkan game yang ada pada toko berdasarkan parameter tertentu.")         #F7
         print("search_game_at_store - Mencari game berdasarkan parameter yang diinputkan.")                         #F11
         print("topup                - Menambahkan saldo pada suatu user tertentu.")                                 #F12
+        print("help                 - Menampilkan perintah yang dapat dilakukan")                                   #F14
         print("print                - Menampilkan data csv pada terminal.")
         print("kerangajaib          - Menanyakan suatu pertanyaan pada kerang ajaib.")
         print("tictactoe            - Memulai permainan tictactoe.")
@@ -350,6 +409,7 @@ def help(role):
         print("list_game            - Mengurutkan seluruh game yang dimiliki berdasarkan parameter tertentu.")      #F9
         print("search_my_game       - Mencari game tertentu berdasarkan parameter tertentu.")                       #F10
         print("search_game_at_store - Mencari game berdasarkan parameter yang diinputkan.")                         #F11
+        print("help                 - Menampilkan perintah yang dapat dilakukan")                                   #F14
         print("kerangajaib          - Menanyakan suatu pertanyaan pada kerang ajaib.")
         print("tictactoe            - Memulai permainan tictactoe.")
 
@@ -363,7 +423,7 @@ def load(folder):
             return None
         else:
             print("Loading...")
-            time.sleep(3)
+            time.sleep(1)
             print('Selamat datang di antarmuka "Binomo"')
             return folder
     else:                                                           
@@ -385,18 +445,18 @@ def save(df1, df2, df3, df4):
     # Melakukan check apakah terdapat nama folder sesuai dengan yang diinputkan
     check = os.path.isdir("./csv files/"+folder)
     if (check == True):                             # Dilakukan jika file tersebut benar ada
-        listtocsv('user', 6, folder, df1)
-        listtocsv('game', 6, folder, df2)
-        listtocsv('riwayat', 5, folder, df3)
-        listtocsv('kepemilikan', 2, folder, df4)
+        listtocsv('user', folder, df1)
+        listtocsv('game', folder, df2)
+        listtocsv('riwayat', folder, df3)
+        listtocsv('kepemilikan', folder, df4)
     else :                                          # Dilakukan jika tidak ada file dengan nama tersebut
         parent_dir = "./csv files"
         path = os.path.join(parent_dir, folder)         # Fungsi untuk menggabung
         os.mkdir(path)                                  # Command untuk membuat directory baru
-        listtocsv('user', 6, folder, df1)
-        listtocsv('game', 6, folder, df2)
-        listtocsv('riwayat', 5, folder, df3)
-        listtocsv('kepemilikan', 2, folder, df4)
+        listtocsv('user', folder, df1)
+        listtocsv('game', folder, df2)
+        listtocsv('riwayat', folder, df3)
+        listtocsv('kepemilikan', folder, df4)
     
     print("Data telah disimpan pada folder "+folder+"!")
 

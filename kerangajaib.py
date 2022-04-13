@@ -1,8 +1,5 @@
 # File ini berisikan fungsi-fungsi yang digunakan untuk menjalankan program kerang ajaib
 
-import time
-from csvlistfunction import *
-
 '''
 Persamaan dasar LCG --> x[n+1] = (x[n]*a +b) mod m
 Loop akan diulang minimal 7 kali sehingga didapatkan angka yang random
@@ -11,6 +8,26 @@ Loop akan diulang minimal 7 kali sehingga didapatkan angka yang random
         m   = pembagi, sebisa mungkin bersifat prima
 
 '''
+
+# Subprogram Pertanyaan kepada Kerang Ajaib
+# procedure kerangajaib()
+'''
+Deskripsi :
+Prosedur kerangajaib berfungsi untuk mendapatkan jawaban dari kerangajaib. Pengguna akan diminta untuk menginputkan suatu pertanyaan,
+lalu kerang ajaib akan menjawab secara acak (random).
+
+Kamus :
+    answerlist : array of string
+    length : int
+    local : time.struct_time
+    current : string
+    a, b, m, count : int
+    loop : bool
+    
+'''
+# Algoritma 
+import time
+from csvlistfunction import *
 
 # Fungsi Kerang Ajaib
 def kerangajaib():
@@ -24,6 +41,7 @@ def kerangajaib():
 
     # Mendapatkan program dilaksanakan pada detik ke berapa
     local = time.localtime()
+    print(type(local))
     current = time.strftime("%S", local)
 
     # Random Number menggunkaan metode LCG
@@ -45,5 +63,3 @@ def kerangajaib():
     
     # Program randomize memanfaatkan detik yang terus bertambah dan metode LCG, sehingga nilai yang didapatkan terus berubah
     print(answerlist[result])
-        
-    
