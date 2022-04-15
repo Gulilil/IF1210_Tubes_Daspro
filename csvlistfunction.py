@@ -9,13 +9,12 @@ string sebagai penunjuk jalan akan folder mana yang ingin dibuka.
 
 Kamus :
     file, folder : string
-    component, length : int
+    line : string
+    word : string
     data : file of string
     datalist : matrix of string
     row, col, sum, index : int
-    line : string
-    word : string
-
+    component, length : int
 '''
 # Algoritma 
 def csvtolist (file,component, folder):

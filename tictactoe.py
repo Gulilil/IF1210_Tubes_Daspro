@@ -131,8 +131,8 @@ dalam mengatur segala fungsi-fungsi lainnya yang menunjang pelaksanaan permainan
 Kamus :
     game : bool
     round : int
-    board : matrix of char
     x, y : int
+    board : matrix of char
 '''
 # Algoritma 
 def tictactoe():

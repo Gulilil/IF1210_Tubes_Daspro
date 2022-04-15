@@ -18,8 +18,12 @@
 <h4> Folder tersebut berisi 2 files yaitu 'test.py' dan 'test.csv'. Kedua file ini digunakan untuk melakukan pengecekan algoritma sebelum dimasukan ke dalam program utama. </h4>
 <li> main.py </li>
 <h4> Berisi program dan algoritma program utama </h4>
-<li> subprograms.py </li>
-<h4> Berisi program dan algoritma subprograms. Fungsi-fungsi tersebut terdiri dari F2 hingga F17 serta beberapa fungsi tambahan </h4>
+<li> F2_F7.py </li>
+<h4> Berisi program dan algoritma subprograms. Fungsi-fungsi tersebut terdiri dari F2 hingga F7 </h4>
+<li> F8_F13.py </li>
+<h4> Berisi program dan algoritma subprograms. Fungsi-fungsi tersebut terdiri dari F8 hingga F13 </h4>
+<li> F14_F17.py </li>
+<h4> Berisi program dan algoritma subprograms. Fungsi-fungsi tersebut terdiri dari F14 hingga F17 serta beberapa fungsi tambahan </h4>
 <li> csvlistfunction.py </li>
 <h4> Berisi program dan algoritma program untuk mengolah list dan csv. </h4>
 <li> password.py </li>

@@ -72,11 +72,11 @@ kode password pada file penyimpanan menjadi bentuk password semula yang diinputk
 
 Kamus Lokal
     alphabet : string = "abcdefghijklmnopqrstuvwxyz"
-    length : int
     initpass : string
-    varkey : int
     require1, require2 : bool
     chipcode : int
+    varkey : int
+    length : int
     key1, key2 : int
     initcode : int
     initalphabet : char

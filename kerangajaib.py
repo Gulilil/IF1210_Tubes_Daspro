@@ -19,9 +19,9 @@ lalu kerang ajaib akan menjawab secara acak (random).
 Kamus :
     answerlist : array of string
     length : int
+    a, b, m, count : int
     local : time.struct_time
     current : string
-    a, b, m, count : int
     loop : bool
     
 '''
@@ -41,7 +41,6 @@ def kerangajaib():
 
     # Mendapatkan program dilaksanakan pada detik ke berapa
     local = time.localtime()
-    print(type(local))
     current = time.strftime("%S", local)
 
     # Random Number menggunkaan metode LCG

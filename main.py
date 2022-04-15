@@ -14,7 +14,11 @@ Nama anggota :
 
 # Algoritma
 import argparse
-from subprograms import *
+from kerangajaib import kerangajaib
+from tictactoe import *
+from F2_F7 import *
+from F8_F13 import *
+from F14_F17 import *
 
 
 # Program Utama
