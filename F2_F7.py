@@ -84,7 +84,7 @@ def register(dfuser):
 
 
 
-# F3 - Login
+# F3 - Login (dan Logout)
 # Subprogram Melakukan Masuk ke Suatu Akun User
 # function login (matrix dfuser)
 '''
@@ -169,6 +169,53 @@ def logout(dfuser, index):
 
 
 # F4 - Menambah Game ke Toko
+'''
+MASIH DALAM TAHAP PENGERJAAN
+def tambah_game(game):
+   id_game = input("Masukkan ID Game: ")
+   isAda = False  
+
+   length = lengthlist (game)
+
+   search = True                       # variabel yang menunjukkan apakah pencarian perlu dilakukan
+   index = 0
+   while (search == True):
+        if (game[index][0] == id_game):
+            isAda = True
+            search = False              # jika idgame sudah ditemukan, pencarian sudah tidak perlu lagi dilakukan
+        elif (index >= length-1):           # dilakukan jika sudah dilakukan pengecekan hingga suku terakhir, tetapi tidak ditemukan
+            search = False
+        if (search == True):            # Penambahan index hanya dilakukan apabila pencarian masih berlanjut
+            index +=1
+
+    if (isAda == True):
+        found = True
+        cekEmpty = True
+        cekoutpu1 = False
+        cekoutput2 = False
+        while found == True or cekEmpty == True:
+            if cekoutput2 == False:
+                if cekoutput1 == True:
+                    print("Gagal menambahkan game karena game sudah ada.")
+            else:
+                print("Mohon masukkan semua informasi mengenai game agar dapat disimpan BNMO.")
+        
+            namaGame = input("Masukkan nama game: ")
+            kategori = input("Masukkan kategori: ")
+            tahun = input("Masukkan tahun rilis: ")
+            harga = input("Masukkan harga: ")
+            stok = input("Masukkan stok awal: ")
+
+            cekEmpty = cekInputKosong(namaGame,kategori,tahun,harga,stok)
+            cekoutput1 = found
+            cekoutput2 = cekEmpty
+
+    print("Selamat! Berhasil menambahkan game ", namaGame)
+    print()
+    newgame = ['G' + id_game(),namaGame,kategori,tahun,harga,stok]
+    index += [newgame]
+    return index
+'''
 # F5 - Mengubah Game pada Toko
 # F6 - Mengubah Stok Game di Toko
 def ubah_stok(game):

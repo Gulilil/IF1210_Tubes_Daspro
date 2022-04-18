@@ -209,6 +209,9 @@ path = os.path.join(parent_dir, folder)         # Fungsi untuk menggabung
 os.mkdir(path)                                  # Command untuk membuat directory baru
 '''
 
-
+'''
 data = open("test.csv", "r")
 print(type(data))
+'''
+
+print("BAME003" < "BAME002")

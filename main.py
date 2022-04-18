@@ -40,13 +40,14 @@ if __name__ == '__main__':
     except:
         print("Tidak ada nama folder yang diberikan!")
 
+    # Inisasi Data yang akan dipakai
+    # Saat pertama kali pembacaan, program akan membaca save data pada folder 'main save'
+    dfuser = csvtolist("user",6,folder)
+    dfgame = csvtolist("game",6,folder)
+    dfriwayat = csvtolist("riwayat",5,folder)
+    dfkepemilikan = csvtolist("kepemilikan", 2,folder)
+
     while (program == True):
-        # Inisasi Data yang akan dipakai
-        # Saat pertama kali pembacaan, program akan membaca save data pada folder 'main save'
-        dfuser = csvtolist("user",6,folder)
-        dfgame = csvtolist("game",6,folder)
-        dfriwayat = csvtolist("riwayat",5,folder)
-        dfkepemilikan = csvtolist("kepemilikan", 2,folder)
         print("========================================================================================")
         print("Ketik 'help' untuk melihat perintah yang dapat dilakukan.")
         action = input("Silahkan ketikkan perintah: ").lower()
@@ -96,6 +97,13 @@ if __name__ == '__main__':
                         ubah_stok(dfgame)
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+
+                # Jika action adalah buy game
+                elif (action == 'buy_game'):
+                    if (role == 'admin'):
+                        print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
+                    else:
+                        dfuser, dfkepemilikan, dfriwayat = buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, id, index)
 
                 # Jika action adalah search_my_game
                 elif (action == 'search_my_game'):

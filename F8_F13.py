@@ -3,8 +3,96 @@
 
 # Algoritma Sub Program 
 from csvlistfunction import *
+import time
 
 # F8 - Membeli Game
+def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
+    gameID = input("Masukkan ID Game: ")
+
+    # Menghitung panjang data setiap matrix
+    userLength = lengthlist(dfuser)
+    gameLength = lengthlist(dfgame)
+    kepemilikanLength = lengthlist(dfkepemilikan)
+
+    # Cek apakah selama ID Game yang diinputkan benar ada pada data
+    def gameAvailable(dfgame, gameID, gameLength):
+        for i in range(gameLength):
+            if (dfgame[i][0] == gameID):                # Pengecekan pada kolom index 0 karena kolom tersebut menyimpan data ID Game
+                return [True, i]
+        return [False, -999]                             # Mengembalikan False bila sampai akhir pengecekan tidak ditemukan ID tersebut
+    
+    def gameOwned(dfkepemilikan, gameID, kepemilikanLength, userID):
+        for i in range(kepemilikanLength):
+            if (dfkepemilikan[i][0] == gameID and dfkepemilikan [i][1] == userID):  #Melakukan pengecekan pada data kepemilikan game
+                return True
+        return False                                # Mengembalikan False apabila sampai akhir pengecekan, user tersebut tidak memiliki game yang ingin dibeli
+
+    def cekSaldo(dfuser, userLength, userID, dfgame, gameLength, gameID):
+        for i in range(gameLength):
+            if (dfgame[i][0] == gameID):                # Dilakukan pencarian harga untuk game dengan ID yang diinputkan
+                price = float(dfgame[i][4])
+        for i in range(userLength):
+            if (dfuser[i][0] == userID):                # Dilakukan pencarian saldo untuk user ID 
+                saldo = float(dfuser[i][5])
+        if (saldo >= price):                                    # Saldo tidak cukup
+            return [True, saldo-price]
+        else:
+            return [False, saldo]
+    
+    def cekStok(dfgame, gameLength, gameID):
+        for i in range(gameLength):
+            if (dfgame[i][0] == gameID):                # Dilakukan pencarian harga untuk game dengan ID yang diinputkan
+                stok = int(dfgame[i][5])                # kolom index 5 menyimpan data stok
+        if (stok <= 0):                                         # Stok habis
+            return [False, stok]
+        else:
+            return [True, stok-1]
+    
+    # Melakukan setiap pengecekan
+    resultGame = gameAvailable(dfgame, gameID, gameLength)
+    available = resultGame[0]
+    gameIndex = resultGame[1]
+    if (available == False):                # Input ID yang dimasukkan salah
+        print('Game dengan ID "'+gameID+'" tidak ada pada data kami.')
+        return dfuser, dfkepemilikan, dfriwayat
+    if (gameOwned(dfkepemilikan, gameID, kepemilikanLength, userID) == True):   # user sudah memiliki game tersebut
+        print('Anda sudah memiliki game tersebut!')
+        return dfuser, dfkepemilikan, dfriwayat
+
+    resultSaldo = cekSaldo(dfuser, userLength, userID, dfgame, gameLength, gameID)
+    resultStok = cekStok(dfgame, gameLength, gameID)
+    if (resultSaldo[0] == False):                                           # Saldo user tidak mencukupi
+        print("Saldo anda tidak cukup untuk membeli Game tersebut!")
+        return dfuser, dfkepemilikan, dfriwayat
+    if (resultStok[0] == False):                                            # Stok game tidak ada
+        print("Stok game tersebut sudah habis!")
+        return dfuser, dfkepemilikan, dfriwayat
+    
+    # Jika lolos dari serangkaian pengecekan, maka game akan dibeli
+    dfuser[index][5] = str(resultSaldo[1])                    # Mengubah data saldo pengguna
+    gameName = dfgame[gameIndex][1]                     # kolom index adalah kolom dimana nama game disimpan
+
+    # Penambahan list untuk dfkepemilikan
+    kepemilikanArray = [0 for i in range(2)]
+    kepemilikanArray[0] = gameID
+    kepemilikanArray[1] = userID
+    dfkepemilikan = mergelist(dfkepemilikan, kepemilikanArray)      # Menggabungkan matrix dengan baris baru
+    dfkepemilikan = sortmatrix(dfkepemilikan, 0)                    # Mengurutkan data pada matrix
+    # Penambahan list untuk dfriwayat
+    riwayatArray = [0 for i in range(5)]
+    riwayatArray[0] = gameID
+    riwayatArray[1] = dfgame[gameIndex][1]
+    riwayatArray[2] = dfgame[gameIndex][4]
+    riwayatArray[3] = userID
+    local = time.localtime()                                # local adalah variabel untuk menyatakan localtime
+    year = time.strftime("%Y", local)
+    riwayatArray[4] = year
+    dfriwayat = mergelist(dfriwayat, riwayatArray)                  # Menggabungkan matrix dengan baris baru
+    dfriwayat = sortmatrix(dfriwayat, 0)                            # Mengurutkan data pada matrix
+    print('Game "'+gameName+'" berhasil dibeli!')
+    
+    return dfuser, dfkepemilikan, dfriwayat
+
 # F9 - Melihat Game yang dimiliki
 # F10 - Mencari Game yang dimiliki
 # Subprogram mencari game yang dimiliki
@@ -242,7 +330,7 @@ def topup(dfuser):
         check = False                                           # Inisialisasi validasi user
         for i in range(1, lengthlist(dfuser)):                   
             if username == (dfuser[i][1]):                      # User tervalidasi
-                saldoakhir = int(dfuser[i][5])                  # data saldo user diubah menjadi integer
+                saldoakhir = float(dfuser[i][5])                  # data saldo user diubah menjadi integer
                 saldoakhir += saldo                             # operasi penambahan/pengurangan saldo
                 if saldoakhir < 0:                              # saldo berupa negatif
                     print("Masukan tidak valid")
