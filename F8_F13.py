@@ -7,6 +7,7 @@ import time
 
 # F8 - Membeli Game
 def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
+    print("========================================================================================")
     gameID = input("Masukkan ID Game: ")
 
     # Menghitung panjang data setiap matrix
@@ -114,6 +115,7 @@ Kamus :
     
 '''
 def search_my_game(dfgame,dfkepemilikan, id):
+    print("========================================================================================")
     filter_id = input("Masukkan ID Game: ")
     filter_tahun = input("Masukkan Tahun Rilis Game: ")
 
@@ -192,6 +194,7 @@ Kamus :
 
 '''
 def search_game_at_store(dfgame):
+    print("========================================================================================")
     temp = []                                               # Inisialisasi dari list sementara game yang sesuai filter
     hasil = []                                              # Inisialisasi dari list akhir game yang sesuai filter
     idgame = input("Masukkan ID Game: ")                    # Input ID Game
@@ -309,7 +312,7 @@ def search_game_at_store(dfgame):
 
 # F12 - Top Up Saldo
 # Subprogram untuk top up saldo
-# Function topup (matrix dfuser)
+# function topup (matrix dfuser)
 '''
 Deskripsi:
 Fungsi ini memiliki parameter berupa 'dfuser' yang bertipe matrix. Admin harus menginput username dan saldo
@@ -323,6 +326,7 @@ Kamus :
     
 '''
 def topup(dfuser):
+    print("========================================================================================")
     username = input("Masukkan username: ")
     try:                                                            # Melakukan handle error selain angka
         saldo = float(input("Masukkan saldo: "))
@@ -367,6 +371,7 @@ Kamus :
 '''
 # Algoritma 
 def riwayat(id, dfriwayat):
+    print("========================================================================================")
     # Format GameID | Nama game | Harga | Tahun Beli
     
     # Menghitung panjang dfriwayat

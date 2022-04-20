@@ -214,4 +214,7 @@ data = open("test.csv", "r")
 print(type(data))
 '''
 
-print("BAME003" < "BAME002")
+
+test = int(input())
+if test == None:
+    print("AAAA")

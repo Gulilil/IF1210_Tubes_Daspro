@@ -38,6 +38,7 @@ Kamus :
 '''
 # Algoritma 
 def register(dfuser):
+    print("========================================================================================")
     nama = input("Masukan nama: ")
     username = input("Masukan username: ")
     password = input("Masukan password: ")
@@ -54,8 +55,9 @@ def register(dfuser):
         sameuser = False
         print("Username", username," sudah terpakai, silakan menggunakan username lain.")
         username = input("Masukan username: ")
-        for i in dfuser["username"]:
-            if (i == username):
+        # Tetap dilakukan pengecekan apakah ada username yang sama
+        for i in range(length):
+            if (dfuser[i][1] == username):                              # Kolom index 1 adalah kolom dimana username disimpan
                 sameuser = True
             
     
@@ -105,6 +107,7 @@ Kamus :
 '''
 # Algoritma 
 def login(dfuser):
+    print("========================================================================================")
     username = input("Masukan username: ")
     password = input("Masukan password: ")
 
@@ -156,6 +159,7 @@ Kamus :
 '''
 # Algoritma 
 def logout(dfuser, index):
+    print("========================================================================================")
     choice = input("Apakah anda ingin melakukan logout? (y/n) ").lower()
     if (choice == 'y'):
         print("Anda sudah keluar dari akun anda. Sampai jumpa "+dfuser[index][2]+"!")
@@ -169,56 +173,83 @@ def logout(dfuser, index):
 
 
 # F4 - Menambah Game ke Toko
-'''
-MASIH DALAM TAHAP PENGERJAAN
-def tambah_game(game):
-   id_game = input("Masukkan ID Game: ")
-   isAda = False  
+# Subprogram untuk penambahan game
+# function tambah_game(matrix dfgame)
 
-   length = lengthlist (game)
+def tambah_game(dfgame):
+    print("========================================================================================")
+    # Melakukan check namaGame terlebih dahulu, apakah di toko sudah ada game yang memiliki nama yang sama
+    namaGame = input("Masukkan nama game: ")
 
-   search = True                       # variabel yang menunjukkan apakah pencarian perlu dilakukan
-   index = 0
-   while (search == True):
-        if (game[index][0] == id_game):
-            isAda = True
-            search = False              # jika idgame sudah ditemukan, pencarian sudah tidak perlu lagi dilakukan
-        elif (index >= length-1):           # dilakukan jika sudah dilakukan pengecekan hingga suku terakhir, tetapi tidak ditemukan
-            search = False
-        if (search == True):            # Penambahan index hanya dilakukan apabila pencarian masih berlanjut
-            index +=1
-
-    if (isAda == True):
-        found = True
-        cekEmpty = True
-        cekoutpu1 = False
-        cekoutput2 = False
-        while found == True or cekEmpty == True:
-            if cekoutput2 == False:
-                if cekoutput1 == True:
-                    print("Gagal menambahkan game karena game sudah ada.")
-            else:
-                print("Mohon masukkan semua informasi mengenai game agar dapat disimpan BNMO.")
+    # mengukur panjang matrix dfgame
+    length = lengthlist(dfgame)
+    
+    def checkAlreadyInStore(dfgame, namaGame):
+        alreadyInStore = False                  # Variabel ini menunjukkan apakah game sudah ada pada toko
+        for i in range(length):
+            if (dfgame[i][1] == namaGame):              # kolom indeks 1 adalah kolom yang menyimpan nama game
+                alreadyInStore = True
+        return alreadyInStore                       # Mengembalikan value True atau False
         
-            namaGame = input("Masukkan nama game: ")
+    if (checkAlreadyInStore(dfgame, namaGame)):
+        print("Game '"+namaGame+"' sudah ada pada toko!")
+        return dfgame
+    else:                                   # Game belum ada pada toko
+        kategori = input("Masukkan kategori: ")
+        tahun = input("Masukkan tahun rilis: ")
+        harga = input("Masukkan harga: ")
+        stok = input("Masukkan stok awal: ")
+
+    while (namaGame == "" or kategori == "" or tahun == "" or harga == "" or stok == ""):
+        # Melakukan pengulangan apabila terdapat suatu informasi yang dikosongkan oleh pelaku
+        print("Mohon masukkan semua informasi mengenai game agar dapat disimpan BNMO.")
+        namaGame = input("Masukkan nama game: ")
+        if (checkAlreadyInStore(dfgame, namaGame)):
+            print("Game '"+namaGame+"' sudah ada pada toko!")
+            return dfgame
+        else :
             kategori = input("Masukkan kategori: ")
             tahun = input("Masukkan tahun rilis: ")
             harga = input("Masukkan harga: ")
             stok = input("Masukkan stok awal: ")
 
-            cekEmpty = cekInputKosong(namaGame,kategori,tahun,harga,stok)
-            cekoutput1 = found
-            cekoutput2 = cekEmpty
+    # Jika stok dan harga negatif, program akan meminta input ulang pada pengguna
+    while ( int(stok) < 0 or int(harga) < 0):
+            print("Nilai harga dan stok tidak mungkin negatif.")
+            harga = input("Masukkan harga: ")
+            stok = input("Masukkan stok awal: ")
+    
+    # Memasukkan data game baru pada dfgame
+        # Ambil GAME ID paling terakhir
+    lastID = dfgame[length-1][0]
+    lastNumberID = ""
+    
+    # Mengukur panjang lastID
+    IDlength = lengthlist(lastID)
+    # Menentukan ID angka
+    for i in range(4, IDlength):                        # Dimulai dari index ke 4 untuk mengambil angkanya saja (e.g. GAME001)
+        lastNumberID = lastNumberID + lastID[i]
+    lastNumberID = int(lastNumberID)
+    newNumberID = lastNumberID + 1                      # Ditambahkan 1 untuk ID baru
 
-    print("Selamat! Berhasil menambahkan game ", namaGame)
-    print()
-    newgame = ['G' + id_game(),namaGame,kategori,tahun,harga,stok]
-    index += [newgame]
-    return index
-'''
+    newIDlength = lengthlist(str(newNumberID))
+    if (newIDlength < 3):
+        zeroAmount = 3 - newIDlength
+        newID = "GAME"+"0"*zeroAmount + str(newNumberID)
+    else :                                                      # Panjang newID lebih dari 3
+        newID = "GAME"+str(newNumberID)
+
+    # Menggabungkan data baru pada dfgame
+    newGameList = [newID, namaGame, kategori, tahun, harga, stok]
+    dfgame = mergelist(dfgame, newGameList)
+
+    print("Selamat! Berhasil menambahkan game "+namaGame+".")
+    return dfgame
+
 # F5 - Mengubah Game pada Toko
 # F6 - Mengubah Stok Game di Toko
 def ubah_stok(game):
+    print("========================================================================================")
     id_game = input("Masukkan ID Game: ")
     isAda = False                                   # isAda adalah variabel yang menunjukkan apakah ID game yang diinputkan benar ada
 
@@ -252,8 +283,9 @@ def ubah_stok(game):
                 print(jumlah_baru*(-1),"stok dari", game[index][1], "gagal dikurangi karena stok kurang. Stok sekarang:", stok,"(<"+str(jumlah_baru*-1)+")")
         else :
             stok += jumlah_baru
-            game[index][5] = stok
+            game[index][5] = str(stok)
             print(jumlah_baru, "stok dari", game[index][1],"berhasil ditambahkan. Stok sekarang:", (stok))
     else:                                                                     # Dilakukan apabila tidak ada game dengan id tersebut
         print("Tidak ada item dengan ID tersebut!")
+
 # F7 - Listing Game di Toko 

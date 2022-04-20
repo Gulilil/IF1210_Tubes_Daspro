@@ -33,11 +33,10 @@ args = parser.parse_args()
 if __name__ == '__main__':
     # Menjalankan fungsi load terlebih dahulu
     # Dilakukan cek apakah terdapat nama folder yang diinputkan atau tidak
-    try:
-        folder = load(args.folder)
-        if (folder != None):
-            program = True              # Program akan dimulai bila terdapat folder yang akan digunakan
-    except:
+    folder = load(args.folder)
+    if (folder != ""):
+        program = True              # Program akan dimulai bila terdapat folder yang akan digunakan
+    else:
         print("Tidak ada nama folder yang diberikan!")
 
     # Inisasi Data yang akan dipakai
@@ -61,7 +60,7 @@ if __name__ == '__main__':
                 logged = True
 
             while(logged == True):      # Pengguna sudah masuk ke suatu akun
-                print("==============================================")
+                print("========================================================================================")
                 id = dfuser[index][0]                                               # Kolom index 0 adalah kolom dimana id disimpan
                 role = dfuser[index][4]                                             # Kolom index 4 adalah kolom dimana role disimpan
                 print("User ID  :", id)
@@ -90,6 +89,13 @@ if __name__ == '__main__':
                     result = logout(dfuser, index)      
                     if (result == True):            # Jika pengguna ingin keluar dari akunnya, maka variabel logged menjadi False
                         logged = False
+
+                # Jika action adalah tambah_game
+                elif (action == "tambah_game"):
+                    if (role == 'admin'):
+                        dfgame = tambah_game(dfgame)
+                    else:
+                        print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
                 # Jika action adalah ubah stock game
                 elif (action == 'ubah_stok'):
@@ -155,6 +161,13 @@ if __name__ == '__main__':
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
                 
+                # Jika action adalah sort
+                elif (action == 'sort'):
+                    if (role == 'admin'):
+                        dfuser, dfgame, dfriwayat, dfkepemilikan = sortdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan)
+                    else:
+                        print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+
                 # Memainkan permainan kerang ajaib
                 elif(action == 'kerangajaib'):
                     kerangajaib()

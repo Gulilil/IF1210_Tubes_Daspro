@@ -31,6 +31,7 @@ from csvlistfunction import *
 
 # Fungsi Kerang Ajaib
 def kerangajaib():
+    print("========================================================================================")
     answerlist = ['Bisa jadi(?)', 'Kubilang tidak ya tidak', 'Menurut kamu sendiri?', "Hidup maneh kumaha maneh", "Yo ndak tau, kok tanya saya?", "Ah sudahlah",
             "Pertanyaan tersebut diluar kapasitas kemampuan.", "Kerang ajaib menolak untuk menjawab.", 'Kerang ajaib has left the chat.']
     
@@ -52,13 +53,13 @@ def kerangajaib():
     count = 0
     loop = True
     current = int(current)                  # mengubah current dari string menjadi integer
-    while (count < 7 or loop == True):
-        if (count >= 7 and (0 <= result <= (length-1))):
+    while (count < 7 or loop == True):                          # Loop akan diulang minimal 7 kali
+        if (count >= 7 and (0 <= result <= (length-1))):        # Jika sudah 7 kali loop dan result berada pada rentang length
             loop = False
-        else:
+        else:                                   
             result = ((current*a)+b)%m
             current = result                    # hasil perhitungan akan dimasukan kembali sebagai input
             count +=1
     
     # Program randomize memanfaatkan detik yang terus bertambah dan metode LCG, sehingga nilai yang didapatkan terus berubah
-    print(answerlist[result])
+    print("Kerang ajaib : "+answerlist[result])

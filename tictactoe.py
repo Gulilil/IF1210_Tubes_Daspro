@@ -136,6 +136,7 @@ Kamus :
 '''
 # Algoritma 
 def tictactoe():
+    print("========================================================================================")
     print("Legenda: ")
     print("# Kosong")
     print("X Pemain 1")
