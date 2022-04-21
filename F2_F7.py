@@ -397,3 +397,103 @@ def ubah_stok(game):
         print("Tidak ada item dengan ID tersebut!")
 
 # F7 - Listing Game di Toko 
+# Subprogram listing game di toko
+# prosedur list_game_toko(input dfgame matrix)
+'''
+Deskripsi :
+Prosedur ini memiliki parameter input berupa 'dfgame' yang bertipe matrix. Prosedur ini
+akan mencetak game pada toko yang diurutkan berdasarkan masukan berupa tahun atau harga,
+baik secara ascending maupun descending. Jika masukan kosong, maka game akan terurut 
+berdasarkan ID game secara ascending.
+
+Kamus :
+    skema                   : string
+    nomor, jarak            : int
+    listorder, listakhir    : array of string
+    function maxlength(int indeks, matrix list) -> int
+    function search(matrix dfgame, int indeks) -> array of string
+    procedure printing(input nomor int, input indeks integer)
+    procedure sortmin(input list1 array of string, input indeks integer)
+    procedure sortmax(input list1 array of string, input indeks integer)
+    
+'''
+def list_game_toko(dfgame):
+    skema = input("Skema sorting: ")                                                    # masukan skema yang dipilih
+
+    # Fungsi untuk menghitung seberapa panjang elemen dari list
+    def maxlength(indeks,list):
+        jarak = 0                                                                       # Inisialisasi variabel jarak
+        for i in list:                                                                  # i adalah elemen dari list pada parameter
+            if lengthlist(i[indeks]) >= jarak:                                          # panjang elemen lebih panjang dari jarak
+                jarak = lengthlist(i[indeks])                                           # jarak diganti dengan nilai dari elemen terpanjang pada list
+        return jarak
+
+    # Prosedur mencetak
+    def printing(list, indeks):
+        nomor = 1                                                                       # inisialisasi nomor
+        for i in range(lengthlist(list)):
+            for j in range(lengthlist(dfgame)):
+                if list[i] == dfgame[j][indeks]:                                        
+                    print("{: >2}".format(nomor),end='. ')                              # mencetak nomor                                                    
+                    for k in range(6):                                                             
+                        jarak = maxlength(k, dfgame)                                                
+                        print(f"{dfgame[j][k]:<{jarak}}", end=' | ')                    # mencetak data game                             
+                    print()                                                  
+                    nomor += 1
+
+    # Fungsi untuk mencari game
+    def search(dfgame, indeks):
+        listorder = []                                                                  # inisialisasi list dari game
+        for i in range(1, lengthlist(dfgame)):
+            if not listorder:                                                           # list awal masih kosong
+                listorder += [dfgame[i][indeks]]                                        # listorder diisi oleh data dari dfgame
+            else:
+                check = 0                                                               # inisialisasi check
+                for j in range(lengthlist(listorder)):
+                    if dfgame[i][indeks] == listorder[j]:                               # data dari dfgame ada yang sama dengan data pada listorder
+                        check += 1                                                      # check ditambah 1
+                if check == 0:                                                          # jika check tidak bertambah, maka
+                    listorder += [dfgame[i][indeks]]                                    # data ditambahkan ke listorder
+        return listorder                                                                # nilai listorder dikembalikan
+    
+    # Prosedur sort dari terkecil
+    def sortmin(list1, indeks):
+        for i in range(lengthlist(list1) -1):                                           # panjang list hanya sampai n-1
+            for j in range(lengthlist(list1) -i -1):                                    # panjang list untuk pembanding akan semakin berkurang sesuai i
+                if list1[j] > list1[j+1] :                                              # jika elemen n > elemen n+1, maka
+                    # proses swap elemen n dengan n+1                                                                    
+                    temp = list1[j]
+                    list1[j] = list1[j+1]
+                    list1[j+1] = temp
+        printing(list1, indeks)                                                         # mencetak list yang telah diurutkan
+
+    # Prosedur sort dari terbesar
+    def sortmax(list1, indeks):                                                         
+        for i in range(lengthlist(list1) -1):                                           # panjang list hanya sampai n-1
+            for j in range(lengthlist(list1) -i -1):                                    # panjang list untuk pembanding akan semakin berkurang sesuai i
+                if list1[j] < list1[j+1] :                                              # jika elemen n > elemen n+1, maka
+                    # proses swap elemen n dengan n+1
+                    temp = list1[j]
+                    list1[j] = list1[j+1]
+                    list1[j+1] = temp    
+        printing(list1, indeks)                                                         # mencetak list yang telah diurutkan
+
+    # Proses Utama
+    listakhir = []                                                                      # inisialisasi listakhir
+    if skema == "tahun+":
+        listakhir = search(dfgame, 3)                                                   # listakhir sama dengan list dari fungsi search dengan indeks tahun
+        sortmin(listakhir, 3)                                                           # listakhir diurutkan dan dicetak dari tahun terkecil
+    elif skema == "tahun-":                                                             
+        listakhir = search(dfgame, 3)                                                   # listakhir sama dengan list dari fungsi search dengan indeks tahun
+        sortmax(listakhir, 3)                                                           # listakhir diurutkan dan dicetak dari tahun terbesar
+    elif skema == "harga+":
+        listakhir = search(dfgame, 4)                                                   # listakhir sama dengan list dari fungsi search dengan indeks harga
+        sortmin(listakhir, 4)                                                           # listakhir diurutkan dan dicetak dari harga terkecil
+    elif skema == "harga-":
+        listakhir = search(dfgame, 4)                                                   # listakhir sama dengan list dari fungsi search dengan indeks harga
+        sortmax(listakhir, 4)                                                           # listakhir diurutkan dan dicetak dari harga terbesar
+    elif skema == "":                                                                   # masukan kosong
+        listakhir = search(dfgame, 0)                                                   # listakhir sama dengan list dari fungsi search dengan indeks ID game
+        sortmin(listakhir, 0)                                                           # ID game diurutkan dari yang paling kecil
+    else:                                                                               # masukan selain tahun+, tahun-, harga+, harga-, dan masukan kosong
+        print("Skema sorting tidak valid!")                                             # pesan error
