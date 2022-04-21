@@ -175,7 +175,26 @@ def logout(dfuser, index):
 # F4 - Menambah Game ke Toko
 # Subprogram untuk penambahan game
 # function tambah_game(matrix dfgame)
+'''
+Deskripsi :
+Fungsi tersebut memiliki sebuah input yaitu 'dfgame' yang bertipe matrix.
+Fungsi ini akan melakukan digunakan untuk membaca nama game, apakah di toko sudah ada game yang memiliki nama yang sama. 
+Jika sudah ada nama game yang sama di toko, maka tidak dapat menambahkan nama game tersebut dan akan meminta input ulang 
+dengan nama game yang berbeda.
 
+Kamus :
+    namaGame : string
+    kategori : string
+    tahun : int 
+    harga : int 
+    stok : int
+    length : int
+    alreadyInStore : bool
+    function checkAlreadyInStore(dfgame, namaGame) -> bool
+    function lengthlist(list) -> int
+    function mergelist(matrix dfgame, list newGameList) -> matrix
+'''
+# Algoritma
 def tambah_game(dfgame):
     print("========================================================================================")
     # Melakukan check namaGame terlebih dahulu, apakah di toko sudah ada game yang memiliki nama yang sama
@@ -248,6 +267,23 @@ def tambah_game(dfgame):
 
 # F5 - Mengubah Game pada Toko
 # F6 - Mengubah Stok Game di Toko
+'''
+Deskripsi :
+Fungsi tersebut memiliki sebuah input yaitu 'game' yang bertipe matrix.
+Fungsi ini akan melakukan digunakan untuk membaca ID game dan membaca besar perubahan stok yang ingin dilakukan.
+Bila stok suatu game bernilai nol setelah pengubahan, tidak perlu dihapus dari sistem.
+
+Kamus :
+    id_game : string
+    isAda : bool
+    search : bool
+    index : int
+    stok : int
+    jumlah_baru : int
+    length : int
+    function lengthlist(matrix game) -> int
+'''
+# Algoritma
 def ubah_stok(game):
     print("========================================================================================")
     id_game = input("Masukkan ID Game: ")
