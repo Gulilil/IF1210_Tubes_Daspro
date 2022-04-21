@@ -106,10 +106,10 @@ Prosedur ini memiliki 3 parameter, yaitu 'dfgame' dan 'dfkepemilikan' yang berti
 Prosedur ini hanya akan mencetak game yang dimiliki user. Jika tidak ditemukan game, maka akan muncul pesan error.
 
 Kamus :
-    mygame  : array of string
-    nomor, jarak   : int
+    mygame          : array of string
+    nomor, jarak    : int
     function maxlength(int indeks, matrix list) -> int
-    procedure printing(input nomor int, input indeks string)
+    procedure printing(input nomor int, input indeks int)
     
 '''
 def list_game(dfgame, dfkepemilikan, id):
@@ -164,7 +164,7 @@ Kamus :
     jarak, nomor : int
     check : bool
     function maxlength(int indeks, matrix list) -> int
-    procedure printing(input nomor int, input indeks string)
+    procedure printing(input nomor int, input indeks int)
     
 '''
 def search_my_game(dfgame,dfkepemilikan, id):
