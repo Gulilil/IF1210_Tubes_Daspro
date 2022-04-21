@@ -117,7 +117,14 @@ if __name__ == '__main__':
                         print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
                     else:
                         dfuser, dfkepemilikan, dfriwayat = buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, id, index)
-
+                
+                # F09 Jika action adalah list_game
+                elif (action == 'list_game'):
+                    if (role == 'admin'):
+                        print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
+                    else:
+                        list_game(dfgame, dfkepemilikan, id)
+                        
                 # F10 Jika action adalah search_my_game
                 elif (action == 'search_my_game'):
                     if (role == 'admin'):
