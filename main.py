@@ -72,79 +72,86 @@ if __name__ == '__main__':
                 # Menanyakan kembali pengguna, tindakan yang akan dilakukan
                 action = input("Tindakan apa yang akan dilakukan: ").lower()
 
-                # Jika input adalah register
+                # F02 Jika input adalah register
                 if (action == 'register'):
                     if (role == 'admin'):   
                         dfuser = register(dfuser)                       # List dfuser diubah dengan dfuser gabungan yang baru
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
-                # Jika action adalah login
+                # F03 Jika action adalah login
                 elif (action == 'login'):
                     print("Anda sedang menggunakan akun dengan username '"+dfuser[index][1]+"'.")         # username disimpan pada data kolom index 1
                     print("Silakan logout terlebih dahulu untuk melakukan login menggunakan akun lain.")
 
-                # Jika action adalah logout
+                # F03 Jika action adalah logout
                 elif (action == 'logout'):
                     result = logout(dfuser, index)      
                     if (result == True):            # Jika pengguna ingin keluar dari akunnya, maka variabel logged menjadi False
                         logged = False
 
-                # Jika action adalah tambah_game
+                # F04 Jika action adalah tambah_game
                 elif (action == "tambah_game"):
                     if (role == 'admin'):
                         dfgame = tambah_game(dfgame)
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
-                # Jika action adalah ubah stock game
+                # F05 Jika action adalah ubah_game
+                elif (action == "ubah_game"):
+                    if (role == 'admin'):
+                        dfgame = ubah_game(dfgame)
+                    else:
+                        print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+
+                # F06 Jika action adalah ubah stock game
                 elif (action == 'ubah_stok'):
                     if (role == 'admin'):
                         ubah_stok(dfgame)
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
-                # Jika action adalah buy game
+                # F08 Jika action adalah buy game
                 elif (action == 'buy_game'):
                     if (role == 'admin'):
                         print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
                     else:
                         dfuser, dfkepemilikan, dfriwayat = buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, id, index)
 
-                # Jika action adalah search_my_game
+                # F10 Jika action adalah search_my_game
                 elif (action == 'search_my_game'):
                     if (role == 'admin'):
                         print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
                     else:
                         search_my_game(dfgame , dfkepemilikan, id)
                 
-                # Jika action adalah search_game_at_store search_game_at_store(dfgame)
+                # F11 Jika action adalah search_game_at_store search_game_at_store(dfgame)
                 elif (action == 'search_game_at_store'):
                     search_game_at_store(dfgame)
                 
-                # Jika action adalah topup
+                # F12 Jika action adalah topup
                 elif (action == 'topup'):
                     if (role == 'admin'):
                         topup(dfuser)
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
                     
-                # Jika action adalah riwayat
+                # F13 Jika action adalah riwayat
                 elif (action == 'riwayat'):
                     if (role == 'admin'):
                         print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
                     else:
                         riwayat(id, dfriwayat)
                 
-                # Jika action adalah help
+                # F14 Jika action adalah help
                 elif (action == 'help'):
                     help(role)
 
-                # Jika action adalah save:
+                # F16 Jika action adalah save:
                 elif (action == 'save'):
                     save(dfuser, dfgame, dfriwayat, dfkepemilikan)
 
-                # Jika action adalah exit
+                # F17 Jika action adalah exit
                 elif (action == 'exit'):
                     if (exit() == 'y'):
                         save(dfuser, dfgame, dfriwayat, dfkepemilikan)
@@ -168,11 +175,11 @@ if __name__ == '__main__':
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
-                # Memainkan permainan kerang ajaib
+                # B02 Memainkan permainan kerang ajaib
                 elif(action == 'kerangajaib'):
                     kerangajaib()
 
-                # Memainkan permainan tictactoe
+                # B03 Memainkan permainan tictactoe
                 elif(action == 'tictactoe'):
                     tictactoe()
 
@@ -180,17 +187,17 @@ if __name__ == '__main__':
                 else:
                     print("Maaf perintah tersebut tidak dapat diproses.")
 
-        # Jika action adalah help
+        # F14 Jika action adalah help
         elif (action == 'help'):
             help(role)
 
-        # Melakukan permainan kerang ajaib tanpa melakukan login
+        # B02 Melakukan permainan kerang ajaib tanpa melakukan login
         elif (action == 'kerangajaib'):
                 kerangajaib()
-        # Melakukan permainan tictactoe tanpa melakukan login
+        # B03 Melakukan permainan tictactoe tanpa melakukan login
         elif (action == 'tictactoe'):
                 tictactoe()
-        # Jika action adalah exit
+        # F17 Jika action adalah exit
         elif (action == 'exit'):
                 program = False
         else :                              # pengguna tidak menginputkan 'login'

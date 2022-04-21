@@ -7,14 +7,6 @@ import time
 
 # F8 - Membeli Game
 def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
-    print("========================================================================================")
-    gameID = input("Masukkan ID Game: ")
-
-    # Menghitung panjang data setiap matrix
-    userLength = lengthlist(dfuser)
-    gameLength = lengthlist(dfgame)
-    kepemilikanLength = lengthlist(dfkepemilikan)
-
     # Cek apakah selama ID Game yang diinputkan benar ada pada data
     def gameAvailable(dfgame, gameID, gameLength):
         for i in range(gameLength):
@@ -22,12 +14,14 @@ def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
                 return [True, i]
         return [False, -999]                             # Mengembalikan False bila sampai akhir pengecekan tidak ditemukan ID tersebut
     
+    # Cek apakah game sudah dimiliki
     def gameOwned(dfkepemilikan, gameID, kepemilikanLength, userID):
         for i in range(kepemilikanLength):
             if (dfkepemilikan[i][0] == gameID and dfkepemilikan [i][1] == userID):  #Melakukan pengecekan pada data kepemilikan game
                 return True
         return False                                # Mengembalikan False apabila sampai akhir pengecekan, user tersebut tidak memiliki game yang ingin dibeli
 
+    # Cek apakah saldo mencukupi
     def cekSaldo(dfuser, userLength, userID, dfgame, gameLength, gameID):
         for i in range(gameLength):
             if (dfgame[i][0] == gameID):                # Dilakukan pencarian harga untuk game dengan ID yang diinputkan
@@ -40,6 +34,7 @@ def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
         else:
             return [False, saldo]
     
+    # Cek apakah stok mencukupi
     def cekStok(dfgame, gameLength, gameID):
         for i in range(gameLength):
             if (dfgame[i][0] == gameID):                # Dilakukan pencarian harga untuk game dengan ID yang diinputkan
@@ -48,6 +43,14 @@ def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
             return [False, stok]
         else:
             return [True, stok-1]
+            
+    print("========================================================================================")
+    gameID = input("Masukkan ID Game: ")
+
+    # Menghitung panjang data setiap matrix
+    userLength = lengthlist(dfuser)
+    gameLength = lengthlist(dfgame)
+    kepemilikanLength = lengthlist(dfkepemilikan)
     
     # Melakukan setiap pengecekan
     resultGame = gameAvailable(dfgame, gameID, gameLength)

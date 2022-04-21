@@ -266,6 +266,78 @@ def tambah_game(dfgame):
     return dfgame
 
 # F5 - Mengubah Game pada Toko
+# Subprogram Pengubahan Game Pada Toko
+# function ubah_game(matrix game) 
+'''
+Deskripsi :
+Fungsi ubah_game memiliki parameter yaitu sebuah matrix yang bernama 'game'. Program akan meminta
+pengguna untuk memasukan suatu IDGame yang ingin diubah. Lalu program akan mengecek apakah ID Game yang diinputkan
+sudah sesuai atau belum. Bila sudah sesuai, program akan mengganti data pada matriks 'game' dengan data yang diinputkan 
+oleh pengguna.
+
+Kamus :
+    gameId, newName, newKategori, newTahun, newHarga : string
+    length : int
+    searchResult : array
+    available : bool
+    gameIndex : int
+    game : matrix of string
+    function checkAlreadyInStore(dfgame, ID) -> array
+    function lengthlist(matrix) -> int
+
+
+'''
+def ubah_game(game):
+    # Pembuatan Fungsi Pengecekan
+    def checkAlreadyInStore(dfgame, ID):
+        alreadyInStore = False                  # Variabel ini menunjukkan apakah game sudah ada pada toko
+        index = -999                        # indeks == -999 bila tidak ada pata toko
+        for i in range(length):
+            if (dfgame[i][0] == ID):              # kolom indeks 0 adalah kolom yang menyimpan ID game
+                alreadyInStore = True
+                index = i
+        return [alreadyInStore, index]              # Mengembalikan value True atau False
+
+    print("========================================================================================")
+    gameID = input("Masukkan ID Game: ")
+    newName = input("Masukkan nama game baru: ")
+    newKategori = input("Masukkan kategori baru: ")
+    newTahun = input("Masukkan tahun rilis baru: ")
+    newHarga = input("Masukkan harga baru: ")
+
+    # Mengukur panjang data game
+    length = lengthlist (game)
+
+    searchResult = checkAlreadyInStore(game, gameID)    
+    available = searchResult[0]
+    gameIndex = searchResult[1]
+
+    while (gameID == "" or available == False):
+        print("ID Game tidak dapat ditemukan. Tolong masukan ID Game dengan benar.")
+        gameID = input("Masukkan ID Game: ")
+        newName = input("Masukkan nama game baru: ")
+        newKategori = input("Masukkan kategori baru: ")
+        newTahun = input("Masukkan tahun rilis baru: ")
+        newHarga = input("Masukkan harga baru: ")
+
+        searchResult = checkAlreadyInStore(game, gameID)    
+        available = searchResult[0]
+        gameIndex = searchResult[1]
+    
+    # Memasukan data baru ke matriks data
+    # Secara berturut-turut kolom yang menyimpang nama, kategori, tahun, dan harga adalah
+    # Kolom index 1, 2, 3, 4
+    if (newName != ""):
+        game[gameIndex][1] = newName
+    if (newKategori != ""):
+        game[gameIndex][2] = newKategori
+    if (newTahun != ""):
+        game[gameIndex][3] = newTahun
+    if (newHarga != ""):
+        game[gameIndex][4] = newHarga
+    print("Game dengan ID '"+gameID+"' telah berhasil diubah.")
+    return game
+
 # F6 - Mengubah Stok Game di Toko
 '''
 Deskripsi :
