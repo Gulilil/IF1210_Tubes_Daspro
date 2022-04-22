@@ -202,13 +202,15 @@ def listtocsv(file, folder, dataframe):
 
 # Subprogram Mengurutkan Data pada matrix berdasarkan suatu parameter
 # function sortmatrix(matrix matrix, int comparedColumn)
+# function sortmatrixint(matrix matrix, int comparedColumn)
 '''
 Deskripsi :
 Fungsi tersebut memiliki dua buah paramater yaitu 'matrix' yang bertipe matrix dan 'comparedColumn' yang bertipe integer.
 Fungsi akan dilakukan untuk mengurutkan matrix tersebut berdasarkan data pada kolom 'comparedColumn' secara mengurut membesar.
+Perbedaan antara sortmatrix dan sortmatrixint adalah matrix digunakan untuk string dan sortmatrixint digunakan untuk int
 
 Kamus :
-    matrix : matrix 
+    matrix : matrix of string
     row: int
     comparedColumn : int
 '''
@@ -228,6 +230,20 @@ def sortmatrix (matrix, comparedColumn):
     
     return matrix
 
+def sortmatrixint(matrix, comparedColumn):
+    # Mengukur panjang dan lebar matrix
+    row = lengthlist(matrix)
+
+    for i in range(1,row-1):                  # Pengurutan dimulai dari index 1 karena index 0 adalah judul dari data
+        indexMin = i                          # Pengulangan cukup dilakukan hingga row-1, karena index terakhir pasti sudah terurut setelah dilakukannya pengurutan
+        for j in range(i, row):
+            if (int(matrix[j][comparedColumn]) < int(matrix[indexMin][comparedColumn])):
+                indexMin = j
+        temp = matrix[indexMin]
+        matrix[indexMin] = matrix[i]
+        matrix[i] = temp
+    
+    return matrix
             
             
     

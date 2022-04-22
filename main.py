@@ -191,7 +191,7 @@ if __name__ == '__main__':
 
                     # F17 Jika action adalah exit
                     elif (action == 'exit'):
-                        if (exit() == 'y'):
+                        if (exitprogram() == 'y'):
                             save(dfuser, dfgame, dfriwayat, dfkepemilikan)
                             program = False
                             logged = False

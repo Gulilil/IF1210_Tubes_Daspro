@@ -143,7 +143,7 @@ Kamus :
     answer : string
 '''
 # Algoritma 
-def exit():
+def exitprogram():
     print("========================================================================================")
     answer = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ").lower()
     while (answer != "y" and answer != "n"):
@@ -203,7 +203,10 @@ def sortdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):
             column = int(input("1. User ID, 2. Username, 3. Nama Pengguna, 4. Password, 5. Role, 6. Saldo : "))
             if (column < 1 or column > 6):
                 print("Pilihan data invalid.")
-            else :
+            elif ( column == 6):                                # Saldo adalah satu satunya kolom int
+                dfuser = sortmatrixint(dfuser, column-1)
+                print("Data dfuser sudah diurutkan!")
+            else :                                               # Pilihan 1 -5 adalah data string
                 dfuser = sortmatrix(dfuser, column-1)
                 print("Data dfuser sudah diurutkan!")
         except :
@@ -216,7 +219,10 @@ def sortdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):
             column = int(input("1. Game ID, 2. Nama Game, 3. Kategori, 4. Tahun Rilis, 5. Harga, 6. Stok : "))
             if (column < 1 or column > 6):
                 print("Pilihan data invalid.")
-            else:
+            elif(column >=4):                                   # Kolom 4,5,6 adalah data int
+                dfgame = sortmatrixint(dfgame, column-1)
+                print("Data dfgame sudah diurutkan!")
+            else:                                               # Kolom 1,2,3 berisi data string
                 dfgame = sortmatrix(dfgame, column-1)
                 print("Data dfgame sudah diurutkan!")
         except :
@@ -229,7 +235,10 @@ def sortdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):
             column = int(input("1. Game ID, 2. Nama Game , 3. Harga, 4. User ID, 5. tahun Beli : "))
             if (column < 1 or column > 5):
                 print("Pilihan data invalid.")
-            else:
+            elif (column >=3):                                      # Kolom 3,4,5 berisi data int
+                dfriwayat = sortmatrixint(dfriwayat, column-1)
+                print("Data dfriwayat sudah diurutkan!")
+            else:                                                       # Kolom 1, 2 berisi data string
                 dfriwayat = sortmatrix(dfriwayat, column-1)
                 print("Data dfriwayat sudah diurutkan!")
         except :
@@ -241,6 +250,9 @@ def sortdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan):
             column = int(input("1. Game ID, 2. User ID : "))
             if (column < 1 or column > 2):
                 print("Pilihan data invalid.")
+            elif (column == 2):                                                 # Kolom 2 berisi data int
+                dfkepemilikan = sortmatrixint(dfkepemilikan, column-1)
+                print("Data dfkepemilikan sudah diurutkan!")
             else:
                 dfkepemilikan = sortmatrix(dfkepemilikan, column-1)
                 print("Data dfkepemilikan sudah diurutkan!")
