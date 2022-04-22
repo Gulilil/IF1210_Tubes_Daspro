@@ -110,14 +110,25 @@ if __name__ == '__main__':
                         ubah_stok(dfgame)
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
-
+                
+                # F07 Jika action adalah list_game_toko
+                elif (action == 'list_game_toko'):
+                    list_game_toko(dfgame)
+                    
                 # F08 Jika action adalah buy game
                 elif (action == 'buy_game'):
                     if (role == 'admin'):
                         print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
                     else:
                         dfuser, dfkepemilikan, dfriwayat = buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, id, index)
-
+                
+                # F09 Jika action adalah list_game
+                elif (action == 'list_game'):
+                    if (role == 'admin'):
+                        print("Maaf, anda harus menjadi user untuk melakukan hal tersebut.")
+                    else:
+                        list_game(dfgame, dfkepemilikan, id)
+                        
                 # F10 Jika action adalah search_my_game
                 elif (action == 'search_my_game'):
                     if (role == 'admin'):
@@ -132,7 +143,7 @@ if __name__ == '__main__':
                 # F12 Jika action adalah topup
                 elif (action == 'topup'):
                     if (role == 'admin'):
-                        topup(dfuser)
+                        dfuser = topup(dfuser)
                     else:
                         print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
                     

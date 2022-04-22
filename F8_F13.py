@@ -98,6 +98,56 @@ def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
     return dfuser, dfkepemilikan, dfriwayat
 
 # F9 - Melihat Game yang dimiliki
+# Subprogram melihat game yang dimiliki
+# procedure list_game(input dfgame matrix, input dfkepemilikan matrix, input id string)
+'''
+Deskripsi :
+Prosedur ini memiliki 3 parameter, yaitu 'dfgame' dan 'dfkepemilikan' yang bertipe matrix, dan id yang bertipe string.
+Prosedur ini hanya akan mencetak game yang dimiliki user. Jika tidak ditemukan game, maka akan muncul pesan error.
+
+Kamus :
+    mygame          : array of string
+    nomor, jarak    : int
+    function maxlength(int indeks, matrix list) -> int
+    procedure printing(input nomor int, input indeks int)
+    
+'''
+def list_game(dfgame, dfkepemilikan, id):
+    mygame = []                                                                         # inisialisasi list mygame
+    # Proses mencari apakah user memiliki game atau tidak
+    for i in range(1, lengthlist(dfkepemilikan)):
+            if dfkepemilikan[i][1]==id:                                            # Jika sesuai dengan indeks user, maka
+                mygame += [dfkepemilikan[i][0]]                                         # game akan disimpan ke list mygame
+    sortlist(mygame)                                                                    # prosedur sortlist berasal dari csvlistfunction.py dan berfungsi untuk mengurutkan elemen list dari yang terkecil
+
+    # Fungsi untuk menghitung seberapa panjang elemen dari list
+    def maxlength(indeks,list):
+        jarak = 0                                                                       # Inisialisasi variabel jarak
+        for i in list:                                                                  # i adalah elemen dari list pada parameter
+            if lengthlist(i[indeks]) >= jarak:                                          # panjang elemen lebih panjang dari jarak
+                jarak = lengthlist(i[indeks])                                           # jarak diganti dengan nilai dari elemen terpanjang pada list
+        return jarak
+
+    # Prosedur mencetak
+    def printing(nomor,indeks):                                  
+        print("{: >2}".format(nomor),end='. ')                                          # mencetak nomor
+        for k in range(5):                                                              # range dari id hingga harga
+            jarak = maxlength(k, dfgame)                                                # jarak didefinisikan sebagai jarak maksimum tiap elemen pada kolom
+            print(f"{dfgame[indeks][k]:<{jarak}}", end=' | ')                                # mencetak data game
+        print()                                                                         # print kosong agar diprint pada baris yang berbeda
+    
+    # Proses utama
+    if not mygame:                                                                      # user tidak punya game atau list mygame kosong
+        print("Maaf, kamu belum membeli game. Ketik perintah beli_game untuk beli.")    # pesan ketika tidak punya game
+    else:                                                                               # user punya game atau list mygame tidak kosong 
+        print("Daftar game: ")
+        nomor = 1                                                                       # inisialisasi nomor
+        for i in range(lengthlist(mygame)):
+            for j in range(1, lengthlist(dfgame)):
+                if mygame[i] == dfgame[j][0]:                                           # elemen pada mygame sesuai dengan id game pada dfgame
+                        printing(nomor,j)                                               # mencetak data game
+                        nomor += 1                                                      # nomor ditambah 1
+
 # F10 - Mencari Game yang dimiliki
 # Subprogram mencari game yang dimiliki
 # procedure search_my_game(input dfgame matrix, input dfkepemilikan matrix, input id string)
@@ -114,7 +164,7 @@ Kamus :
     jarak, nomor : int
     check : bool
     function maxlength(int indeks, matrix list) -> int
-    procedure printing(input nomor int, input indeks string)
+    procedure printing(input nomor int, input indeks int)
     
 '''
 def search_my_game(dfgame,dfkepemilikan, id):
