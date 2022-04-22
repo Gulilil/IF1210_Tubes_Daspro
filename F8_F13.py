@@ -138,7 +138,7 @@ def list_game(dfgame, dfkepemilikan, id):
     
     # Proses utama
     if not mygame:                                                                      # user tidak punya game atau list mygame kosong
-        print("Maaf, kamu belum membeli game. Ketik perintah beli_game untuk beli.")    # pesan ketika tidak punya game
+        print("Maaf, kamu belum membeli game. Ketik perintah 'buy_game' untuk beli.")    # pesan ketika tidak punya game
     else:                                                                               # user punya game atau list mygame tidak kosong 
         print("Daftar game: ")
         nomor = 1                                                                       # inisialisasi nomor

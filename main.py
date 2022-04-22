@@ -8,9 +8,32 @@ Nama anggota :
 - Hanif Al Falih (16521332) 
 
 '''
-
+# PROGRAM TOKO BINOMO
+# Deskripsi
+'''
+Program memiliki fungsi selayaknya sebuah program toko jual-beli game. 
+Untuk menjalankan program, pengguna perlu menggunakan modul argparse dan menginputkan suatu folder tempat menyimpanan data.
+Setelah suatu folder berhasil dibaca, maka program akan mulai untuk bekerja.
+Pertama-tama, pengguna harus login terlebih dahulu untuk memiliki akses ke fungsi-fungsi yang lebih beragam.
+Tanpa login, pengguna akan berada pada mode 'guest' dan dapat mengakses fungsi bonus seperti 'kerangajaib' dan 'tictactoe'.
+Secara gambaran besar, akun terbagi menjadi 2 jenis yaitu user dan admin.
+Setiap jenis akun memiliki akses ke fungsi yang berbeda-beda.
+Program akan terus melakukan pengulangan (loop) selama pengguna masih menggunakan program.
+Selama program terus berjalan, segala perubahan pada data belum disave pada file csv, kecuali pengguna menggunakan fungsi 'save'.
+Program akan berhenti apabila pengguna menggunakan fungsi 'exit'.
+'''
 # Kamus
-
+'''
+    parser : argparse.ArgumentParser
+    args   : argparse.Namespace
+    dfuser, dfgame, dfriwayat, dfkepemilikan : matrix of string
+    action : string
+    role   : string
+    folder : string
+    index  : int
+    id     : int
+    program, logged, result : bool
+'''
 
 # Algoritma
 import argparse
