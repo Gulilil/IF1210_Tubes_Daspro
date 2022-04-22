@@ -71,15 +71,19 @@ Kamus :
 # Algoritma 
 def load(folder):
     if(folder != "."):                                           # menghindari penggunaan input "."
-        check = os.path.isdir("./csv files/"+folder)
-        if (check == False):
-            print('Folder "'+folder+'" tidak ditemukan.')
-            return None
+        if(folder == ""):
+            check = os.path.isdir("./csv files/"+folder)
+            if (check == False):
+                print('Folder "'+folder+'" tidak ditemukan.')
+                return None
+            else:
+                print("Loading...")
+                time.sleep(1)
+                print('Selamat datang di antarmuka "Binomo"')
+                return folder
         else:
-            print("Loading...")
-            time.sleep(1)
-            print('Selamat datang di antarmuka "Binomo"')
-            return folder
+            print("Tidak ada nama folder yang diberikan")
+            return None
     else:                                                           
         print('Folder "'+folder+'" tidak ditemukan.')
         return None
