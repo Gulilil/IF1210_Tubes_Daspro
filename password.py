@@ -29,20 +29,17 @@ Fungsi ini memiliki 1 input yaitu variable password yang bertipe string. Passwor
 pengguna. Fungsi ini digunakan untuk mengubah password tersebut menjadi sebuah kode password untuk disimpan dalam file penyimpanan.
 
 Kamus Lokal
-    alphabet : string = "abcdefghijklmnopqrstuvwxyz"
     newpass, password : string
     key1, key2 : int
     chipcode, varkey : int
     newalphabet : char
 '''
 # Algoritma
-         #daftar alphabet
 
 def encryptpass(password):
     newpass = ""                                        # Variabel ini akan digunakan untuk menyimpan password simpanan
-    alphabet = "abcdefghijklmnopqrstuvwxyz"    
     for i in password:
-        if (i in alphabet or i in alphabet.upper()):    # Pengubahan pass dilakukan hanya pada komponen huruf saja
+        if ((65 <= ord(i) <= 90) or (97 <= ord(i) <= 122)):    # Pengubahan pass dilakukan hanya pada komponen huruf saja, huruf berada pada rentang ord 65-90 dan 97-122
             key1 = 4
             key2 = 29
             chipcode = (key1*(ord(i)+key2))% 26 +97
@@ -83,7 +80,6 @@ Kamus Lokal
 '''
 # Algoritma
 def decryptpass(password):
-    alphabet = "abcdefghijklmnopqrstuvwxyz"    
 
     # Pertama-tama perlu ditentukan terlebih dahulu panjang dari string password
     length = 0
@@ -104,7 +100,7 @@ def decryptpass(password):
         
         # Melakukan pengecekan kedua (requirement2)
         if (require1 == True):
-            if( i+2 < length and (password[i+2] in alphabet)):      # Memastikan bahwa suku setelah varkey merupakan huruf
+            if( i+2 < length and (97<= ord(password[i+2])<=122)):      # Memastikan bahwa suku setelah varkey merupakan huruf alphabet kecil
                 chipcode = password[i+2]                            # Perlu dilakukan pengecekan juga bahwa index i+2 harus kurang dari length (mencegah error)
                 require2 = True
             else :

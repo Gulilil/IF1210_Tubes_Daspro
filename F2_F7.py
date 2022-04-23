@@ -1,18 +1,10 @@
 # Subprogram F2 hingga F7
 # File ini berisikan fungsi-fungsi yang digunakan untuk menjalankan program mulai dari Fungsi ke 2 hingga Fungsi ke 7
 
-# Kamus Global :
-'''
-    alphabet : string = "abcdefghijklmnopqrstuvwxyz"
-    numbersymbol : string = "0123456789-_"
-'''
 
 # Algoritma Subprogram
 from password import *
 from csvlistfunction import *
-
-alphabet = "abcdefghijklmnopqrstuvwxyz"
-numbersymbol  = "0123456789-_"
 
 
 # F2 - Register
@@ -64,14 +56,16 @@ def register(dfuser):
     uservalid = True
     # Melakukan cek validitas username
     for i in username:
-        if (i not in (alphabet) and i not in (alphabet.upper()) and i not in (numbersymbol)):
+        # Alphabet kapital berada pada rentang ord 65 hinga 90, alphabet kecil berada pada rentang 97 hingga 122
+        # '-' ada pada ord 45 dan '_' ada pada ord 95, angka berada pada rentang ord 48 hingga 57
+        if (ord(i) < 48 or ord(i) > 57) and (ord(i) <65 or ord(i) > 90) and (ord(i)< 97 or ord(i) > 122) and (ord(i) != 45) and (ord(i) != 95):
             uservalid = False
     while (uservalid == False):
         print("Username", username, "tidak valid. Username hanya diperkenankan mengandung alphabet, angka, underscore, dan strip")
         username = input("Masukan username: ")
         uservalid = True
         for i in username:
-            if (i not in (alphabet) and i not in (alphabet.upper()) and i not in (numbersymbol)):
+            if (ord(i) < 48 or ord(i) > 57) and (ord(i) <65 or ord(i) > 90) and (ord(i)< 97 or ord(i) > 122) and (ord(i) != 45) and (ord(i) != 95):
                 uservalid = False
 
     # Mengubah password yang diinputkan menjadi chippered password 
