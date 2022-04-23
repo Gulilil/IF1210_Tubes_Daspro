@@ -58,23 +58,24 @@ def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
     gameIndex = resultGame[1]
     if (available == False):                # Input ID yang dimasukkan salah
         print('Game dengan ID "'+gameID+'" tidak ada pada data kami.')
-        return dfuser, dfkepemilikan, dfriwayat
+        return dfuser, dfgame, dfkepemilikan, dfriwayat
     if (gameOwned(dfkepemilikan, gameID, kepemilikanLength, userID) == True):   # user sudah memiliki game tersebut
         print('Anda sudah memiliki game tersebut!')
-        return dfuser, dfkepemilikan, dfriwayat
+        return dfuser, dfgame, dfkepemilikan, dfriwayat
 
     resultSaldo = cekSaldo(dfuser, userLength, userID, dfgame, gameLength, gameID)
     resultStok = cekStok(dfgame, gameLength, gameID)
     if (resultSaldo[0] == False):                                           # Saldo user tidak mencukupi
         print("Saldo anda tidak cukup untuk membeli Game tersebut!")
-        return dfuser, dfkepemilikan, dfriwayat
+        return dfuser, dfgame, dfkepemilikan, dfriwayat
     if (resultStok[0] == False):                                            # Stok game tidak ada
         print("Stok game tersebut sudah habis!")
-        return dfuser, dfkepemilikan, dfriwayat
+        return dfuser, dfgame, dfkepemilikan, dfriwayat
     
     # Jika lolos dari serangkaian pengecekan, maka game akan dibeli
     dfuser[index][5] = str(resultSaldo[1])                    # Mengubah data saldo pengguna
     gameName = dfgame[gameIndex][1]                     # kolom index adalah kolom dimana nama game disimpan
+    dfgame[gameIndex][5] = str( int(dfgame[gameIndex][5]) - 1 )                                 # Mengurangi 1 stok game
 
     # Penambahan list untuk dfkepemilikan
     kepemilikanArray = [0 for i in range(2)]
@@ -95,7 +96,7 @@ def buy_game(dfuser, dfgame, dfkepemilikan, dfriwayat, userID, index):
     dfriwayat = sortmatrix(dfriwayat, 0)                            # Mengurutkan data pada matrix
     print('Game "'+gameName+'" berhasil dibeli!')
     
-    return dfuser, dfkepemilikan, dfriwayat
+    return dfuser, dfgame, dfkepemilikan, dfriwayat
 
 # F9 - Melihat Game yang dimiliki
 # Subprogram melihat game yang dimiliki
