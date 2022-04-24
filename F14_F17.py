@@ -48,8 +48,8 @@ def help(role):
         print("list_game_toko       - Mengurutkan game yang ada pada toko berdasarkan data tertentu.")              #F7
         print("buy_game             - Membeli game tertentu dari toko.")                                            #F8
         print("list_game            - Mengurutkan seluruh game yang dimiliki berdasarkan parameter tertentu.")      #F9
-        print("search_my_game       - Mencari game tertentu berdasarkan parameter tertentu.")                       #F10
-        print("search_game_at_store - Mencari game berdasarkan parameter yang diinputkan.")                         #F11
+        print("search_my_game       - Mencari game yang dimiliki berdasarkan parameter tertentu.")                       #F10
+        print("search_game_at_store - Mencari game di toko berdasarkan parameter yang diinputkan.")                         #F11
         print("riwayat              - Menampilkan seluruh riwayat pembelian akun tertentu.")                        #F13
         print("help                 - Menampilkan perintah yang dapat dilakukan")                                   #F14
         print("kerangajaib          - Menanyakan suatu pertanyaan pada kerang ajaib.")
