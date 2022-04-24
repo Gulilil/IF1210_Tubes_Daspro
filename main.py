@@ -76,7 +76,7 @@ if __name__ == '__main__':
             print("Ketik 'help' untuk melihat perintah yang dapat dilakukan.")
             action = input("Silahkan ketikkan perintah: ").lower()
             logged = False              # Variabel yang menjelaskan apakah pengguna sudah login atau belum
-            role = 'guest'                # Jika belum melakukan login, role yang diberikan adalah 'guest'
+            role = 'guest'                # Jika belum melakukan login,outp role yang diberikan adalah 'guest'
             if (action == 'login'):
                 index = login(dfuser)
                 if (index == None):
@@ -97,7 +97,7 @@ if __name__ == '__main__':
                     # Menanyakan kembali pengguna, tindakan yang akan dilakukan
                     action = input("Tindakan apa yang akan dilakukan: ").lower()
 
-                    # F02 Jika input adalah register
+                    # F02 Jika input adalah registero
                     if (action == 'register'):
                         if (role == 'admin'):   
                             dfuser = register(dfuser)                       # List dfuser diubah dengan dfuser gabungan yang baru
@@ -209,7 +209,7 @@ if __name__ == '__main__':
                         if (role == 'admin'):
                             dfuser, dfgame, dfriwayat, dfkepemilikan = sortdataframe(dfuser, dfgame, dfriwayat, dfkepemilikan)
                         else:
-                            print("Maaf, anda tidak memiliki izin untuk menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
+                            print("Maaf, anda tidak memiliki izin untu k menjalankan perintah berikut. Mintalah ke administrator untuk melakukan hal tersebut.")
 
                     # B02 Memainkan permainan kerang ajaib
                     elif(action == 'kerangajaib'):

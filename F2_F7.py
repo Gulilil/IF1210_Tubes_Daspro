@@ -452,13 +452,22 @@ def list_game_toko(dfgame):
     
     # Prosedur sort dari terkecil
     def sortmin(list1, indeks):
-        for i in range(lengthlist(list1) -1):                                           # panjang list hanya sampai n-1
-            for j in range(lengthlist(list1) -i -1):                                    # panjang list untuk pembanding akan semakin berkurang sesuai i
-                if (int(list1[j]) > int(list1[j+1])) :                                              # jika elemen n > elemen n+1, maka
-                    # proses swap elemen n dengan n+1                                                                    
-                    temp = list1[j]
-                    list1[j] = list1[j+1]
-                    list1[j+1] = temp
+        if (indeks == 0):
+            for i in range(lengthlist(list1) -1):                                           # panjang list hanya sampai n-1
+                for j in range(lengthlist(list1) -i -1):                                    # panjang list untuk pembanding akan semakin berkurang sesuai i
+                    if (list1[j] > list1[j+1]) :                                              # jika elemen n > elemen n+1, maka
+                        # proses swap elemen n dengan n+1                                                                    
+                        temp = list1[j]
+                        list1[j] = list1[j+1]
+                        list1[j+1] = temp
+        else :
+            for i in range(lengthlist(list1) -1):                                           # panjang list hanya sampai n-1
+                for j in range(lengthlist(list1) -i -1):                                    # panjang list untuk pembanding akan semakin berkurang sesuai i
+                    if (int(list1[j]) > int(list1[j+1])) :                                              # jika elemen n > elemen n+1, maka
+                        # proses swap elemen n dengan n+1                                                                    
+                        temp = list1[j]
+                        list1[j] = list1[j+1]
+                        list1[j+1] = temp
         printing(list1, indeks)                                                         # mencetak list yang telah diurutkan
 
     # Prosedur sort dari terbesar
