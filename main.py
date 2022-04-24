@@ -38,8 +38,6 @@ Program akan berhenti apabila pengguna menggunakan fungsi 'exit'.
 
 # Algoritma
 import argparse
-
-from pkg_resources import require
 from kerangajaib import kerangajaib
 from tictactoe import *
 from F2_F7 import *

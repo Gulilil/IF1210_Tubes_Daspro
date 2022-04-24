@@ -30,7 +30,7 @@ def help(role):
     elif (role == 'admin'):
         print("======================= HELP ======================= ")
         print("register             - Melakukan registrasi user baru.")                                             #F2
-        print("login                - Melakukan login ke dalam sistem.")                                            #F3
+        print("logout               - Melakukan logout keluar dari akun.")                                            #F3
         print("tambah_game          - Menambahkan game baru pada toko.")                                            #F4
         print("ubah_game            - Mengubah spesifikasi pada game tertentu.")                                    #F5
         print("ubah_stok            - Mengubah stock game yang ada pada toko.")                                     #F6
@@ -44,7 +44,7 @@ def help(role):
         print("tictactoe            - Memulai permainan tictactoe.")
     else :                                                              # role == 'user'
         print("======================= HELP ======================= ")
-        print("login                - Melakukan login ke dalam sistem.")                                            #F3
+        print("logout               - Melakukan logout keluar dari akun.")                                            #F3
         print("list_game_toko       - Mengurutkan game yang ada pada toko berdasarkan data tertentu.")              #F7
         print("buy_game             - Membeli game tertentu dari toko.")                                            #F8
         print("list_game            - Mengurutkan seluruh game yang dimiliki berdasarkan parameter tertentu.")      #F9
